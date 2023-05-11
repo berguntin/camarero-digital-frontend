@@ -1,17 +1,23 @@
-import base_url from './settings'
+/* import base_url from './settings' */
 
 export default {
-    
-    getCategories(){
-        fetch(this.base_url +"products/categories")
-        .then( res => res.json())
+    getCategories() {
+        return new Promise((resolve, reject) => {
+          fetch('http://localhost:3000/api/products/categories')
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(error => reject(error));
+        })
     },
     getProducts(category){
-        fetch(base_url +'products/' + category)
-            .then(res => res.json())
-    
+        return new Promise((resolve, reject) => {
+            fetch('http://localhost:3000/api/products/'+category)
+              .then(response => response.json())
+              .then(data => resolve(data))
+              .catch(error => reject(error));
+          })
             
     },
-    createOrder(){}
+    postOrder(){}
         
 }

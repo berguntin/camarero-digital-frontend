@@ -11,7 +11,7 @@
  </template>
  <script>
  import AppProduct from './ProductMenuComponent.vue'
- import { mapState, mapActions } from 'vuex';
+ import { mapState } from 'vuex';
  
  export default {
      name: "AppCategories",

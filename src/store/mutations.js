@@ -3,6 +3,23 @@ import * as types from './mutations-types'
 
 export default{
 
+    //Traer las categorias de la API
+    [types.FETCH_CATEGORIES_REQUEST] (state) {
+        state.fetchingData = true
+        state.error = null
+    },
+
+    [types.FETCH_CATEGORIES_SUCCESS] (state, { categories }) {
+        state.fetchingData = false
+        state.error = null
+        state.categories =  categories 
+    },
+
+    [types.FETCH_CATEGORIES_FAILURE] (state, { error }) {
+        state.fetchingData = false
+        state.error = error
+    },
+
     //Traer los productos de la API
     [types.FETCH_PRODUCTS_REQUEST] (state) {
         state.fetchingData = true
@@ -16,22 +33,6 @@ export default{
     },
 
     [types.FETCH_PRODUCTS_FAILURE] (state, { error }) {
-        state.fetchingData = false
-        state.error = error
-    },
-    //Traer las categorias
-    [types.FETCH_CATEGORIES_REQUEST] (state) {
-        state.fetchingData = true
-        state.error = null
-    },
-
-    [types.FETCH_CATEGORIES_SUCCESS] (state, [ categories ]) {
-        state.fetchingData = false
-        state.error = null
-        state.categories = [...categories]
-    },
-
-    [types.FETCH_CATEGORIES_FAILURE] (state, { error }) {
         state.fetchingData = false
         state.error = error
     },

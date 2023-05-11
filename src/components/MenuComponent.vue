@@ -11,27 +11,35 @@
 
 <script>
 import CategoryButton from './CategoryButtonComponent.vue'
+import { mapState, mapActions } from 'vuex'
 
 export default{
     name: 'AppMenu',
     components: {
         CategoryButton
     },
-    data(){ 
-        return {
-            categories: [],
-            }
+    computed: {
+        ...mapState([
+            'categories',
+            'fetchingData',
+            'currentCategory'
+        ])
     },
     methods: {
-         getCategories() {
+
+        ...mapActions([
+            'fetchCategories'
+        ])
+        /*  getCategories() {
              fetch(process.env.VUE_APP_API_BASE_URL +"products/categories")
                  .then( res => res.json())
                  .then(data => this.categories = data)
-         }
+         } */
      },
-     mounted() {
-         this.getCategories()
-         
+     created() {
+        /*  this.getCategories() */
+         this.fetchCategories()
+         console.log(this.fetchCategories())
      }
 }
 

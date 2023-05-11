@@ -4,7 +4,7 @@ export default {
         return state.productsInCart
     },
 
-    addProductToCart: (state) => (product) => {
+    addProductToCart: (state) => ({ product }) => {
         return Object.values(state.productsInCart).push(product)
     },
 
