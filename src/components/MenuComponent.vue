@@ -26,20 +26,12 @@ export default{
         ])
     },
     methods: {
-
         ...mapActions([
             'fetchCategories'
         ])
-        /*  getCategories() {
-             fetch(process.env.VUE_APP_API_BASE_URL +"products/categories")
-                 .then( res => res.json())
-                 .then(data => this.categories = data)
-         } */
      },
      created() {
-        /*  this.getCategories() */
          this.fetchCategories()
-         console.log(this.fetchCategories())
      }
 }
 

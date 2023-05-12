@@ -12,11 +12,16 @@ export default {
         .catch( error => commit(types.FETCH_CATEGORIES_FAILURE, { error }))
     },
     //Cargar los productos de una categoria
-    fetchProducts({ commit }, { category } ){
+    fetchProducts({ commit },   category   ){
         commit(types.FETCH_PRODUCTS_REQUEST)
 
         API.getProducts(category)
-        .then(data => commit(types.FETCH_PRODUCTS_SUCCESS,  { data }))
+        .then(products => commit(types.FETCH_PRODUCTS_SUCCESS,  { products }))
         .catch( error => commit(types.FETCH_PRODUCTS_FAILURE, { error }))
+    },
+    //Agregar un producto al carrito
+    addProductToCart({ commit },  product ){
+        commit(types.ADD_TO_CART, product)
+
     }
 }

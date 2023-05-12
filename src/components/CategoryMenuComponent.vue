@@ -11,7 +11,7 @@
  </template>
  <script>
  import AppProduct from './ProductMenuComponent.vue'
- import { mapState } from 'vuex';
+ import { mapState, mapActions } from 'vuex';
  
  export default {
      name: "AppCategories",
@@ -32,10 +32,12 @@
 
     },
      methods: {
-        
+        ...mapActions([
+            'fetchProducts'
+        ])
     },
     created(){
-       
+       this.fetchProducts(this.category)
     }
      
  }

@@ -15,12 +15,14 @@
         <button @click="subtractQuantity">-</button>
       </div>
       <button @click="addToCart">Añadir</button>
-       <small v-if="isOrdered">En tu pedido: {{ orderedQuantity }}</small>
+       <small v-if="isOrdered">En tu pedido: {{ getQuantityInCart() }}</small>
     </div>
 
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'AppProduct',
   props: {
@@ -30,24 +32,39 @@ export default {
     return {
       selectedQuantity: 1,
       isOrdered:false,
-      orderedQuantity: 0
+  
     }
   },
+  computed:{
+    ...mapGetters([
+      'getProductsInCart'
+    ]),
+  },
   methods: {
+    ...mapActions([
+      'addProductToCart'
+    ]),
     addToCart() {
+      //Creamos un nuevo objeto con la cantidad seleccionada y lo guardamos
       const modifiedProduct = {...this.product, quantity: this.selectedQuantity}
-      this.orderedQuantity= this.selectedQuantity
-      this.$emit('add-to-cart', modifiedProduct)
+      this.$store.dispatch('addProductToCart', { modifiedProduct })
+      this.isOrdered = true
+      this.selectedQuantity = 1 //devolvemos la cantidad a 1 para mejorar UX
     },
     addQuantity() {
       this.selectedQuantity++
     },
     subtractQuantity() {
       this.selectedQuantity > 1 ? this.selectedQuantity-- : this.selectedQuantity
+    },
+    getQuantityInCart(){
+      const producstInCart = this.getProductsInCart
+      const itemInCart = producstInCart.find(product => product.id === this.product.id)                      
+      return itemInCart.quantity
     }
   },
   mounted() {
-    this.getProducts(this.category)
+    
   }
 }
 </script>

@@ -20,9 +20,10 @@ import ProductCartCard from '@/components/ProductCartComponent.vue'
         props: {
             order: Array
             
-        }
-        
+        },
+       
     }
+        
        
     
 

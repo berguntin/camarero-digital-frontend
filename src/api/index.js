@@ -1,9 +1,10 @@
-/* import base_url from './settings' */
+import { API_URL } from "./settings";
+
 
 export default {
     getCategories() {
         return new Promise((resolve, reject) => {
-          fetch('http://localhost:3000/api/products/categories')
+          fetch(API_URL +'/api/products/categories')
             .then(response => response.json())
             .then(data => resolve(data))
             .catch(error => reject(error));
@@ -11,7 +12,7 @@ export default {
     },
     getProducts(category){
         return new Promise((resolve, reject) => {
-            fetch('http://localhost:3000/api/products/'+category)
+            fetch(API_URL + '/api/products/'+category)
               .then(response => response.json())
               .then(data => resolve(data))
               .catch(error => reject(error));

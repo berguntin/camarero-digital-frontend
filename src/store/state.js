@@ -3,7 +3,6 @@ export default {
     fetchingData: false,
     error: null,
     categories: [],
-    currentCategory: '',
     products: {
         /**
          * id: String

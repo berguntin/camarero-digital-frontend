@@ -1,11 +1,11 @@
 export default {
 
-    getProductsInCart: (state) => () => {
-        return state.productsInCart
+    getProductsInCart: (state) => {
+        return Object.values(state.productsInCart)
     },
 
-    addProductToCart: (state) => ({ product }) => {
-        return Object.values(state.productsInCart).push(product)
+    addProductToCart: (state) => (product) => {
+        return state.productsInCart.push(product)
     },
 
     deleteProductFromCart: (state) => (productId) => {
