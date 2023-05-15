@@ -10,19 +10,23 @@
 
 <script>
 
-import NavComponent from '@/components/NavComponent.vue'
-
+import NavComponent from '@/components/NavComponent'
+import { mapActions } from 'vuex';
 
 export default {
   name: "App",
   components: {
       NavComponent,
   },
-  data(){
-    return {
-        
-    }
-  }, 
+  methods: {
+    ...mapActions([
+      'initializeTableID'
+    ])
+  },
+  created() {
+        //Guardamos la id de la mesa en el estado y en localStorage
+        this.initializeTableID(this.$route.query.tableID)
+    }  
   
 }
 

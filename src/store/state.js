@@ -1,7 +1,9 @@
 export default {
-    table: null,
+    tableID: localStorage.getItem('tableID') || 'TEST',
     fetchingData: false,
+    pushingData: false,
     error: null,
+    orders: {},
     categories: [],
     products: {
         /**
@@ -16,5 +18,6 @@ export default {
          */
     },
     allergensFiter: {},
-    productsInCart: {}
+    //Si tenemos el carrito en el localStorage, lo cargamos
+    productsInCart: JSON.parse(localStorage.getItem('cart')) || {},
 }

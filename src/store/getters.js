@@ -1,17 +1,20 @@
+
+
 export default {
 
     getProductsInCart: (state) => {
         return Object.values(state.productsInCart)
     },
-
-    addProductToCart: (state) => (product) => {
-        return state.productsInCart.push(product)
+    getNumberOfProductsInCart: (state) => {
+        return Object.values(state.productsInCart).length
     },
-
-    deleteProductFromCart: (state) => (productId) => {
-        return Object.values(state.productsInCart)
-            .filter(product => product.id !== productId)
+    getCartTotalAmount : (state) => {
+        return Object.values(state.productsInCart).reduce((total, current) =>{
+            return total + (current.price * current.quantity);
+        }, 0)     
+    },
+    getTableID: (state) => {
+        return state.tableID
     }
-
 
 }

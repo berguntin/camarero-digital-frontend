@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import CartView from '../views/CartView.vue'
-import AppCategories from '../components/CategoryMenuComponent.vue'
-import MenuView from '@/views/MenuView.vue'
+import HomeView from '../views/HomeView'
+import CartView from '../views/CartView'
+import AppCategories from '@/components/products/CategoryProductsComponent'
+import MenuView from '@/views/MenuView'
 
 Vue.use(VueRouter)
 

@@ -1,16 +1,19 @@
 <template>
-    <div class="products">
+    <div class="container">
+        
+      <div class="products">
         <span v-if="fetchingData">Cargando productos...</span>
         <AppProduct v-for="product in products" 
             :key="product.id" 
             :product="product"
             >
         </AppProduct>
+     </div>   
     </div>
     
  </template>
  <script>
- import AppProduct from './ProductMenuComponent.vue'
+ import AppProduct from './ProductMenuComponent'
  import { mapState, mapActions } from 'vuex';
  
  export default {
@@ -45,14 +48,14 @@
  
  <style lang="scss" scoped>
      
-     .container-cat{
-         display: flex;
-         flex-direction: column;
-         justify-content: center;
-         padding: 10%;
-     }
-     .btn-category {
-         margin-top: 1rem;
+     .products{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 500px;
+        margin: 2px auto;
+
      }
 
  </style>

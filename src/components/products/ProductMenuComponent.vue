@@ -1,0 +1,178 @@
+<template>
+  
+    <div class="product-card">
+      <div class="product-header">
+        <div class="product-name">{{ product.name }}</div>
+          <div class="distintive-icon" v-if="product.category != 'Bebidas'">
+            <font-awesome-icon class="product-icon" icon="fa-solid fa-carrot" v-if="product.vegan" />
+            <font-awesome-icon class="product-icon" icon="fa-solid fa-leaf" v-if="product.vegetarian && !product.vegan" />
+          </div>
+      </div>
+      <div class="product-description">{{ product.description }}</div>
+      <div class="product-price">{{ product.price }} &euro;</div>
+      <div class="product-controls">
+        <div class="product-quantity">
+          <label for="quantity">Cantidad:</label>
+          <button @click="subtractQuantity">-</button>
+          <input type="number" name="quantity" id="quantity" step="1" :value="this.selectedQuantity"/>
+          <button @click="addQuantity">+</button>
+        </div>
+        <button @click="addToCart">Añadir</button>
+      </div>
+      
+       <small v-if="isOrdered">En tu pedido: {{ getQuantityInCart }}</small>
+    </div>
+
+</template>
+
+<script>
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  name: 'AppProduct',
+  props: {
+    product: Object,
+  },
+  data(){
+    return {
+      selectedQuantity: 1,
+    }
+  },
+  computed:{
+    ...mapGetters([
+      'getProductsInCart',
+    ]),
+    productInCart() {
+      return this.getProductsInCart.find(product => product.id === this.product.id)
+    },
+    getQuantityInCart() {
+      return this.productInCart ? this.productInCart.quantity : 0
+    },
+    isOrdered() {
+      return !!this.productInCart
+    }
+  },
+  methods: {
+    ...mapActions([
+      'addProductToCart'
+    ]),
+    addToCart() {
+      //Creamos un nuevo objeto con la cantidad seleccionada y lo guardamos
+      const modifiedProduct = {...this.product, quantity: this.selectedQuantity}
+      this.$store.dispatch('addProductToCart', { modifiedProduct })
+      this.resetQuantity() //devolvemos la cantidad a 1 para mejorar UX
+    },
+    addQuantity() {
+      this.selectedQuantity++
+    },
+    subtractQuantity() {
+      if (this.selectedQuantity > 1) {
+        this.selectedQuantity--
+      }
+    },
+    resetQuantity() {
+      this.selectedQuantity = 1
+    }
+  }
+}
+</script>
+
+
+<style lang="scss" scoped>
+ .product-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 2%;
+  border: none;
+  box-shadow: 1px 3px #ccc;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  height: 90%;
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  position: relative;
+  
+  .product-header {
+    display: flex;
+    align-items: center;
+    
+    .product-icon {
+      margin-right: 10px;
+      position: absolute;
+      top: 10px;
+      right: 0px;
+    }
+    
+    .product-name {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+  
+  .product-description {
+    margin-top: 10px;
+    text-align: start;
+
+    @media (max-width: 320px) {
+      .product-description{
+        font-size: 0.5em;
+      }
+    }
+  }
+  
+  .product-price {
+    align-self: flex-end;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .product-controls{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    .product-quantity {
+      margin: 2px;
+      width: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      label {
+        margin-right: 10px;
+      }
+      input{
+        width: 20%;
+        text-align: center;
+        border: none;
+      }
+      button{
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        border: none;
+      }
+     
+    }
+    button{
+        width: 25%;
+        border-radius: 5%;
+        border: none;
+        padding: 5px;
+        align-self: flex-end;
+        margin-top: 5px;
+        
+      }
+  
+  }
+
+}
+
+
+</style>

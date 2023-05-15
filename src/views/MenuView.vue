@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class="container">
         <AppMenu></AppMenu>
     </div>
     
 </template>
 
 <script>
-import AppMenu from '@/components/MenuComponent.vue'
+import AppMenu from '@/components/products/CategoryMenuComponent'
 
 
 export default{

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import CategoryButton from './CategoryButtonComponent.vue'
+import CategoryButton from './CategoryButtonComponent'
 import { mapState, mapActions } from 'vuex'
 
 export default{
@@ -41,11 +41,11 @@ export default{
 
 .container-cat{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     max-width: 200px;
     height: 90vh;
-    
+    margin-top: 25px;
 }
  a{
     margin: 10px;

@@ -1,3 +1,4 @@
+
 import { API_URL } from "./settings";
 
 
@@ -19,6 +20,19 @@ export default {
           })
             
     },
-    postOrder(){}
+    postOrder(order){
+        return new Promise((resolve, reject) => {
+            fetch(API_URL + '/api/orders/save', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(order)
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(error => reject(error))
+        })
+    }
         
 }
