@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="container">
 
     <h1>Bienvenid@ a la app</h1>
     

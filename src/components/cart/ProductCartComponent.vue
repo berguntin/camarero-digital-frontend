@@ -46,14 +46,17 @@ export default {
 $primary-color: #3498db; // Definimos un color primario para usar en el diseño.
 
 .product-card {
+  position: relative; // Agregado para posicionamiento absoluto de .delete-button
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em;
+  padding: 15px;
   margin-bottom: 1em;
   border: 1px solid $primary-color;
   border-radius: 4px;
   background-color: #fff;
+  max-width: 400px;
+  width: 100%;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -61,15 +64,19 @@ $primary-color: #3498db; // Definimos un color primario para usar en el diseño.
 }
 
 .product-details {
-  display: flex; // Cambiamos la dirección del flex para que todo salga en una línea.
+  display: flex;
   align-items: center;
   padding: 2px auto;
+  width: 95%;
 .product-total-price{
+  position: absolute;
+  width: 10%;
+  right: 20%;
   margin: 0px auto;
-  padding: 5px;
+  padding: 2px;
   font-size: small;
-  text-align: center;
-  border: 1px solid black;
+  /* text-align: flex-end; */
+  
   
 }
   .product-name {
@@ -78,41 +85,52 @@ $primary-color: #3498db; // Definimos un color primario para usar en el diseño.
     font-size: 0.75em;
     text-align: start;
     color: $primary-color;
-    width: 120px;
+    width: 50%;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
   }
 }
 
 .product-quantity-control {
+  position: absolute;
+  left: 58%;
+  transform: translate(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 0 .5vw 0px .5vw ;
 
   .quantity-button {
-    margin-right: 0.5em;
+    margin-right: 0.1em;
     border: none;
     border-radius: 10%;
     width: 20px;
     height: 20px;
-    background-color: lighten($primary-color, 30%); // Usamos una versión más clara del color primario para el fondo del botón.
-    color: darken($primary-color, 20%); // Usamos una versión más oscura del color primario para el texto del botón.
+    background-color: white; 
+    color: darken($primary-color, 20%);
     font-size: .8em;
     cursor: pointer;
-
+/* 
     @media (min-width: 768px) {
       font-size: 1.2em;
-    }
+    } */
   }
-
   .product-quantity {
-    margin-right: 0.5em;
+    margin: 0 .2em 0 .2em;
   }
 
 }
-
 .delete-button {
+  position: absolute;
+  right: 1px; 
+  top: 50%; 
+  transform: translateY(-50%);
   border: none;
   background-color: transparent;
-  color: #ff0000;
+  color: #fc5b5b;
   cursor: pointer;
 }
 

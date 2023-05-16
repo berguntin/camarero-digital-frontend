@@ -1,14 +1,13 @@
 <template>
     <header>
          <nav>
-       
             <router-link to="/">Home</router-link> |
             <router-link to="/menu">Menu</router-link> |
             <router-link to="/cart">
               <font-awesome-icon icon="fa-solid fa-basket-shopping" />
               <small>{{ productsInCart }}</small>
             </router-link>
-         
+         <span class="table-id">Mesa: {{ getTableID }}</span>
         </nav>
     </header>
 </template>
@@ -24,13 +23,14 @@ export default {
     },
     computed: {
       ...mapGetters([
-        'getNumberOfProductsInCart'
+        'getNumberOfProductsInCart',
+        'getTableID'
       ])
     }, 
     watch: {
-        getNumberOfProductsInCart(newVal, oldVal){
+        getNumberOfProductsInCart(newVal){
           this.productsInCart = newVal
-          console.log(oldVal)
+
         }
     }
 }
@@ -56,6 +56,12 @@ nav {
     position: absolute;
     top: -10px;
     left: 25px;
+  }
+  .table-id{
+    position: absolute;
+    top: 1vh;
+    right: 10vw;
+    font-size: smaller;
   }
 }
 

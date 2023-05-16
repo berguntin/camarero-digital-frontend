@@ -1,9 +1,9 @@
 <template>
     <div class="container">
-        
+        <app-filter></app-filter>
       <div class="products">
         <span v-if="fetchingData">Cargando productos...</span>
-        <AppProduct v-for="product in products" 
+        <AppProduct v-for="product in filter" 
             :key="product.id" 
             :product="product"
             >
@@ -14,30 +14,40 @@
  </template>
  <script>
  import AppProduct from './ProductMenuComponent'
+ import AppFilter from '@/components/filter/FilterComponent.vue'
  import { mapState, mapActions } from 'vuex';
  
  export default {
      name: "AppCategories",
+     components: {
+        AppProduct,
+        AppFilter
+     },
      props:{
         category: String
     },
     computed: {
         ...mapState([
             'products', 
-            'fetchingData'
-        ])
-    },
-     components: {   
-        AppProduct
-    },
-     data() {
-         return{}
+            'fetchingData',
+            'allergensFilter'
+        ]),
+        
+        filter(){
+            return Object.values(this.products).filter(product => {
+                return Object.values(this.allergensFilter).every(allergen => {
+                    return !Object.values(product.allergens).some(item => {
+                        return item.toLowerCase() === allergen.toLowerCase();
+                        })
+                    })
+                });
 
+        },
     },
      methods: {
         ...mapActions([
             'fetchProducts'
-        ])
+        ]),       
     },
     created(){
        this.fetchProducts(this.category)

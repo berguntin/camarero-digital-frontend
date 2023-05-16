@@ -4,8 +4,8 @@
       <div class="product-header">
         <div class="product-name">{{ product.name }}</div>
           <div class="distintive-icon" v-if="product.category != 'Bebidas'">
-            <font-awesome-icon class="product-icon" icon="fa-solid fa-carrot" v-if="product.vegan" />
-            <font-awesome-icon class="product-icon" icon="fa-solid fa-leaf" v-if="product.vegetarian && !product.vegan" />
+            <span v-if="product.vegan">🥦</span>
+            <span v-if="product.vegetarian && !product.vegan">🥕</span>
           </div>
       </div>
       <div class="product-description">{{ product.description }}</div>
@@ -41,6 +41,8 @@ export default {
   computed:{
     ...mapGetters([
       'getProductsInCart',
+      'getIsVegan',
+      'getIsVegetarian'
     ]),
     productInCart() {
       return this.getProductsInCart.find(product => product.id === this.product.id)
@@ -72,7 +74,9 @@ export default {
     },
     resetQuantity() {
       this.selectedQuantity = 1
-    }
+    },
+    
+
   }
 }
 </script>
@@ -97,7 +101,7 @@ export default {
     display: flex;
     align-items: center;
     
-    .product-icon {
+    .distintive-icon {
       margin-right: 10px;
       position: absolute;
       top: 10px;

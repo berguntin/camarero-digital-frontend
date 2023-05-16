@@ -81,6 +81,25 @@ export default{
         localStorage.setItem('cart', JSON.stringify(state.productsInCart))        
     },
 
+    //GESTION DEL FILTRO DE ALERGENOS
+    [types.TOGGLE_ALLERGENS_FILTER] (state, allergen) {
+        let filter = Object.values(state.allergensFilter) //obtenemos un objeto iterable
+       
+        filter.includes(allergen) ? filter = filter.filter(item => item != allergen) : filter.push(allergen)
+        state.allergensFilter = filter //reasignamos el nuevo filtro al estado
+        localStorage.setItem('filter', JSON.stringify(state.allergensFilter)) //guardamos en localstorage
+    },
+    [types.RESET_ALLERGENS_FILTER] (state) {
+        state.allergensFilter = []
+        localStorage.removeItem('filter')
+    },
+
+    [types.TOGGLE_DIET_TYPE] (state, diet) {
+        diet === 'vegan' ? state.vegan = !state.vegan : state.vegetarian = !state.vegetarian
+        localStorage.setItem('vegan', state.vegan)
+        localStorage.setItem('vegetarian', state.vegetarian) 
+    },
+
     //Enviar el pedido
     [types.SEND_ORDER_REQUEST] (state) {
         state.pushingData = true,
@@ -90,8 +109,10 @@ export default{
         state.pushingData = false,
         state.productsInCart = {}
         localStorage.removeItem('cart')
-        state.error = null
         Vue.set(state.orders, response.id, response)
+        localStorage.setItem('orders', JSON.stringify(state.orders))
+        state.error = null
+        
     },
     [types.SEND_ORDER_FAILURE] (state, { error } ) {
         state.pushingData = false,

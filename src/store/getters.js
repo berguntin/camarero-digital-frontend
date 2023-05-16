@@ -15,6 +15,18 @@ export default {
     },
     getTableID: (state) => {
         return state.tableID
+    },
+    getAllergensFilter: (state) => {
+        return Object.values(state.allergensFilter)
+    },
+    getIsVegan: (state) => {
+        return state.vegan
+    },
+    getIsVetetarian: (state) => {
+        return state.vegetarian
+    },
+    getOrders: (state) => {
+        return state.orders
     }
 
 }

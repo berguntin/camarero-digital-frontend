@@ -1,32 +1,37 @@
 <template>
-    <div>
+    <main>
         <h2>Carrito</h2>
-        <section v-if="(inCart <= 0)">
+        <section v-if="(refreshCartcount < 1)">
             <span>No hay productos en el carrito...</span>
-           <router-link to="/menu">Agrega productos</router-link>
+            <router-link to="/menu">Agrega productos</router-link>
         </section>
-        <app-cart :order="getProductsInCart" :total="getCartTotalAmount"></app-cart>
-    </div>
-    
-    
+        <div v-else>
+            <app-cart  
+                :cart="getProductsInCart" 
+                :total="getCartTotalAmount"
+            >
+            </app-cart>
+        </div>
+        <div v-if="getOrders">
+            <app-orders :orders="getOrders()">
+
+            </app-orders>
+        </div>
+    </main>
 </template>
 
 <script>
 import AppCart from '@/components/cart/CartComponent.vue'
+import AppOrders from '@/components/cart/OrderPaymentComponent.vue'
 import { RouterLink } from 'vue-router'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default{
     name : 'CartView',
     components: {
     AppCart,
-    RouterLink
-},
-    data(){
-        return{
-            inCart: 0
-        }
-        
+    RouterLink,
+    AppOrders
     },
     computed: {
         ...mapGetters([
@@ -34,10 +39,17 @@ export default{
             'getNumberOfProductsInCart',
             'getCartTotalAmount'
         ]),
-       
+        ...mapState([
+            'orders'
+        ]),
+        refreshCartcount(){
+            return this.getNumberOfProductsInCart
+        },
     },
-    created() {
-       this.inCart = this.getNumberOfProductsInCart
+    methods: {
+        ...mapGetters([
+            'getOrders'
+        ])
     }
     
 }

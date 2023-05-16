@@ -25,7 +25,7 @@ export default {
   },
   created() {
         //Guardamos la id de la mesa en el estado y en localStorage
-        this.initializeTableID(this.$route.query.tableID)
+        this.initializeTableID(this.$route.query.tableID || 'TEST')
     }  
   
 }

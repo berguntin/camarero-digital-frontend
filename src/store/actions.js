@@ -27,27 +27,32 @@ export default {
         .catch( error => commit(types.FETCH_PRODUCTS_FAILURE, { error }))
     },
 
-    //Agregar un producto al carrito
+    /**GESTION DEL CARRITO */
     addProductToCart({ commit },  modifiedProduct ){
         commit(types.ADD_TO_CART, modifiedProduct)
     },
-
-    //Eliminar el producto del carrito
     deleteProductFromCart( { commit }, product){
         commit(types.DELETE_FROM_CART, product)
     },
-
-    //Aumentar cantidad pedida en el carrito
     addQuantityFromCart ( { commit }, product){
         commit(types.ADD_QUANTITY_FROM_CART, product)
     },
-
-    //Decrementar cantidad pedida en el carrito
     substractQuantityFromCart ( { commit }, product){
         commit(types.SUBSTRACT_QUANTITY_FROM_CART, product)
     },
 
-    //Enviar el pedido a la API
+    /** GESTION DEL FILTRO DE ALERGENOS */
+    toggleAllergensFilter( { commit }, item) {
+       commit(types.TOGGLE_ALLERGENS_FILTER, item)
+    },
+    resetAllergensFilter( { commit }){
+        commit(types.RESET_ALLERGENS_FILTER)
+    },
+    toggleDietType({ commit }, diet){
+        commit(types.TOGGLE_DIET_TYPE, diet)
+    },
+
+    /**GESTION DE PEDIDOS A LA API */
     submitOrder( { commit, state }){
         commit(types.SEND_ORDER_REQUEST)
         

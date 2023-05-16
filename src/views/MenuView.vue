@@ -1,7 +1,8 @@
 <template>
-    <div class="container">
+    <main class="container">
+        <h2>Nuestra carta</h2>
         <AppMenu></AppMenu>
-    </div>
+    </main>
     
 </template>
 
@@ -14,7 +15,22 @@ export default{
     components: {
         AppMenu,
         
+    },
+    data() {
+        return {
+            showFilter: true
+        }
     }
+    
 }
 
 </script>
+<style lang="scss" scoped>
+
+    .filter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>

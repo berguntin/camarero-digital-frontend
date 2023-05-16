@@ -1,7 +1,7 @@
 <template>
     <div class="container">
        
-        <product-cart-card v-for="product in order" :key="product.id" :product="product">
+        <product-cart-card v-for="product in cart" :key="product.id" :product="product">
         
         </product-cart-card>
         <div class="total-amount">
@@ -25,7 +25,7 @@ import { mapActions } from 'vuex';
             ProductCartCard
         }, 
         props: {
-            order: Array,
+            cart: Array,
             total: Number
         },
         methods: {
@@ -44,11 +44,19 @@ import { mapActions } from 'vuex';
     justify-content: flex-end;
 
 }
-button{
+.submit-order{
     border: none;
     margin-top: 10px;
     padding: 10px;
-    border-radius: 5%;
+    border-radius: 2px;
+    background-color: rgb(11, 139, 97);
+    color: white;
+
+    &:hover{
+        background-color: white;
+        color: rgb(11, 139, 97);
+        border: 1px solid rgb(11, 139, 97);
+    }
 }
 
 </style>
