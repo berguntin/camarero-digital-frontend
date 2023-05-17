@@ -1,4 +1,3 @@
-
 import * as types from './mutations-types'
 import API from '@/api/index.js'
 
@@ -54,7 +53,6 @@ export default {
 
     /**GESTION DE PEDIDOS A LA API */
     submitOrder( { commit, state }){
-        commit(types.SEND_ORDER_REQUEST)
         
         //Creamos la Order tal y como espera la API
         const order = {
@@ -63,12 +61,21 @@ export default {
             date: new Date().toISOString(),
             items: Object.values(state.productsInCart).map(product => ({
                 productId: product.id,
+                name: product.name,
                 quantity: product.quantity,
             }))
         };
+        commit(types.SEND_ORDER_REQUEST, { order })
 
         API.postOrder(order)
             .then(response => commit(types.SEND_ORDER_SUCCESS, { response }))
             .catch(error => commit(types.SEND_ORDER_FAILURE, { error }))
+    }, 
+    updateOrderStatus( { commit }, tableID) {
+        commit(types.UPDATE_ORDERS_STATUS_REQUEST)
+
+        API.getOrderStatus(tableID)
+            .then(response => commit(types.UPDATE_ORDERS_STATUS_SUCCESS, { response }))
+            .catch(error => commit(types.UPDATE_ORDERS_STATUS_FAILURE, { error }))
     }
 }

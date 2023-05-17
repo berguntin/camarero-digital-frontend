@@ -33,6 +33,14 @@ export default {
             .then(data => resolve(data))
             .catch(error => reject(error))
         })
+    },
+    getOrderStatus(tableID){
+        return new Promise((resolve, reject) => {
+            fetch(API_URL + '/api/orders/' + tableID)
+                .then(response => response.json())
+                .then(data => resolve(data))
+                .catch(error => reject(error))
+        })
     }
         
 }

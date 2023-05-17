@@ -50,7 +50,7 @@ export default{
         else{
             Vue.set(state.productsInCart, modifiedProduct.id, modifiedProduct)
         }
-        localStorage.setItem('cart', JSON.stringify(state.productsInCart))
+        localStorage.setItem('cart_'+state.tableID, JSON.stringify(state.productsInCart))
       },      
 
     //Eliminar un producto del carrito
@@ -58,7 +58,7 @@ export default{
  
         Vue.delete(state.productsInCart, product.id)
        //Guardamos el objeto en localStorage para persististencia
-       localStorage.setItem('cart', JSON.stringify(state.productsInCart))
+       localStorage.setItem('cart_'+state.tableID, JSON.stringify(state.productsInCart))
     },
     
     //Agregar una unidad a un producto en el carrito
@@ -66,7 +66,7 @@ export default{
         console.log('Aumentamos una unidad de ' + product.name)
       Vue.set(state.productsInCart, product.id, {...product, quantity: product.quantity + 1})
         //Guardamos el objeto en localStorage para persististencia
-       localStorage.setItem('cart', JSON.stringify(state.productsInCart))
+       localStorage.setItem('cart_'+state.tableID, JSON.stringify(state.productsInCart))
     },
 
     //Substraer una unidad de un producto en el carrito
@@ -78,7 +78,7 @@ export default{
             Vue.delete(state.productsInCart, product.id)
         }
         //Guardamos el objeto en localStorage para persististencia
-        localStorage.setItem('cart', JSON.stringify(state.productsInCart))        
+        localStorage.setItem('cart_'+state.tableID, JSON.stringify(state.productsInCart))        
     },
 
     //GESTION DEL FILTRO DE ALERGENOS
@@ -87,35 +87,53 @@ export default{
        
         filter.includes(allergen) ? filter = filter.filter(item => item != allergen) : filter.push(allergen)
         state.allergensFilter = filter //reasignamos el nuevo filtro al estado
-        localStorage.setItem('filter', JSON.stringify(state.allergensFilter)) //guardamos en localstorage
+        localStorage.setItem('filter_'+state.tableID, JSON.stringify(state.allergensFilter)) //guardamos en localstorage
     },
     [types.RESET_ALLERGENS_FILTER] (state) {
         state.allergensFilter = []
-        localStorage.removeItem('filter')
+        localStorage.removeItem('filter_'+state.tableID)
     },
 
     [types.TOGGLE_DIET_TYPE] (state, diet) {
         diet === 'vegan' ? state.vegan = !state.vegan : state.vegetarian = !state.vegetarian
-        localStorage.setItem('vegan', state.vegan)
-        localStorage.setItem('vegetarian', state.vegetarian) 
+        localStorage.setItem('vegan_'+state.tableID, state.vegan)
+        localStorage.setItem('vegetarian_'+state.tableID, state.vegetarian) 
     },
 
     //Enviar el pedido
-    [types.SEND_ORDER_REQUEST] (state) {
+    [types.SEND_ORDER_REQUEST] (state, { order }) {
         state.pushingData = true,
+        state.pushingOrder = true
         state.error = null
+        Vue.set(state.orders, order.id, order)
     },
     [types.SEND_ORDER_SUCCESS] (state , { response }) {
         state.pushingData = false,
+        state.pushingOrder = false,
         state.productsInCart = {}
-        localStorage.removeItem('cart')
+        localStorage.removeItem('cart_'+state.tableID)
         Vue.set(state.orders, response.id, response)
-        localStorage.setItem('orders', JSON.stringify(state.orders))
+        localStorage.setItem('orders_'+state.tableID, JSON.stringify(state.orders))
         state.error = null
         
     },
     [types.SEND_ORDER_FAILURE] (state, { error } ) {
         state.pushingData = false,
+        state.error = error
+    },
+    [types.UPDATE_ORDERS_STATUS_REQUEST] (state) {
+        state.fetchingData = true
+        state.error = null
+    },
+    [types.UPDATE_ORDERS_STATUS_SUCCESS] (state,  { response }) {
+        state.fetchingData = false
+        state.error = null
+        state.orders = response
+        localStorage.setItem('orders_'+state.tableID, JSON.stringify(state.orders))
+    },
+
+    [types.UPDATE_ORDERS_STATUS_FAILURE] (state, { error }){
+        state.fetchingData = false
         state.error = error
     }
 }

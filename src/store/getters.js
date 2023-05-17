@@ -26,7 +26,7 @@ export default {
         return state.vegetarian
     },
     getOrders: (state) => {
-        return state.orders
+        return Object.values(state.orders)
     }
 
 }

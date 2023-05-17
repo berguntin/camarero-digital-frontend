@@ -7,4 +7,18 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    max-width: 500px;
+    margin: auto;
 }
+
+/*Desactiva los controles por defecto de los inputs de tipo number*/
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+/**********************************************/
