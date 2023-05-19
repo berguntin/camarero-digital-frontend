@@ -64,7 +64,7 @@ export default {
                     },
                     {
                      icon: '🥛',
-                     name: 'Leche' 
+                     name: 'Lactosa' 
                     },
                     {
                      icon: '🌰',

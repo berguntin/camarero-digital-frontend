@@ -148,6 +148,7 @@ export default {
 
       label {
         margin-right: 10px;
+        align-self: end;
       }
       input{
         width: 20%;

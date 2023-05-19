@@ -1,7 +1,7 @@
-const tableID = localStorage.getItem('tableID') || 'TEST'
+const tableID = localStorage.getItem('tableID')
 
 export default {
-    tableID: tableID,
+    tableID: 'TEST',
     fetchingData: false,
     pushingData: false,
     pushingOrder: false,

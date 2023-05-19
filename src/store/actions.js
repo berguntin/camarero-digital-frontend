@@ -3,11 +3,22 @@ import API from '@/api/index.js'
 
 export default {
 
-    //Guardar el tableID   
+    /* //Guardar el tableID   
     initializeTableID({ commit }, tableID) {
         commit('SET_TABLE_ID', tableID)
+    }, */
+    //Pedir el token para realizar pedidos
+    async askForToken({ commit }, tableid) {
+        commit(types.FETCH_TOKEN_REQUEST)
+
+        try {
+            const { tableID: responseTableID, token } = await API.getToken(tableid); //desestructuramos tableID y token
+            commit(types.FETCH_TOKEN_SUCCESS, { tableID: responseTableID, token });
+        } catch (error) {
+            console.error(error);
+            commit(types.FETCH_TOKEN_FAILURE, { error: error.message });
+        }
     },
- 
     //Cargar las categorias
     fetchCategories({ commit }){
         commit(types.FETCH_CATEGORIES_REQUEST)
@@ -53,24 +64,34 @@ export default {
 
     /**GESTION DE PEDIDOS A LA API */
     submitOrder( { commit, state }){
+        const cart =  Object.values(state.productsInCart)
+        const items = cart.map(product => ({
+                                    productId: product.id,
+                                    name: product.name,
+                                    quantity: product.quantity,
+                                    price: product.price
+                                    }))
+        let totalPrice = items.map(item => item.price * item.quantity).reduce((curr, accum) => curr+accum, 0)
+        totalPrice = totalPrice.toFixed(2)
         
         //Creamos la Order tal y como espera la API
         const order = {
             table: state.tableID || 'TEST',
             status: 'sent',
             date: new Date().toISOString(),
-            items: Object.values(state.productsInCart).map(product => ({
-                productId: product.id,
-                name: product.name,
-                quantity: product.quantity,
-            }))
+            items,
+            totalPrice,
+            token: state.token
         };
-        commit(types.SEND_ORDER_REQUEST, { order })
+        commit(types.SEND_ORDER_REQUEST,  { order } )
 
         API.postOrder(order)
             .then(response => commit(types.SEND_ORDER_SUCCESS, { response }))
-            .catch(error => commit(types.SEND_ORDER_FAILURE, { error }))
-    }, 
+            .catch(error => {
+                console.error(error); // Muestra el error en la consola
+                commit(types.SEND_ORDER_FAILURE, { error }) 
+            })
+}, 
     updateOrderStatus( { commit }, tableID) {
         commit(types.UPDATE_ORDERS_STATUS_REQUEST)
 

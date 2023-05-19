@@ -11,33 +11,44 @@
 <script>
 
 import NavComponent from '@/components/NavComponent'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+
 
 export default {
   name: "App",
   components: {
       NavComponent,
   },
+  computed: {
+    ...mapGetters([
+      'getTableID'
+    ])
+  },
   methods: {
     ...mapActions([
-      'initializeTableID'
+      'initializeTableID',
+      'askForToken'
     ])
   },
   created() {
-        //Guardamos la id de la mesa en el estado y en localStorage
-        this.initializeTableID(this.$route.query.tableID || 'TEST')
+        //solicitamos el token para verificar que la mesa existe
+        const tableID = this.$route.query.tableID || this.state.tableID
+        this.askForToken(tableID)
     }  
   
 }
 
 </script>
 <style lang="scss">
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
+  height: 100%;
 }
 
 

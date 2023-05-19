@@ -1,12 +1,28 @@
 import Vue from 'vue'
 import * as types from './mutations-types'
 
+
 export default{
 
-    //Guardar el parametro TableId desde la ruta
+    [types.FETCH_TOKEN_REQUEST] (state) {
+        state.fetchingData = true
+        state.error = null
+    },
+    [types.FETCH_TOKEN_SUCCESS] (state, { tableID, token }){
+        state.fetchingData = false
+        state.error = null
+        state.tableID = tableID
+        state.token = token
+        localStorage.setItem('AuthToken', token)
+    },
+    [types.FETCH_TOKEN_FAILURE] (state, { error }) {
+        state.fetchingData = false
+        state.error = error
+    },
+    //Guardar el parametro TableId
     [types.SET_TABLE_ID](state, tableID) {
         state.tableID = tableID
-        localStorage.setItem('tableID', tableID);
+        /* localStorage.setItem('tableID', tableID); */
     },
     
     //Traer las categorias de la API
@@ -101,24 +117,25 @@ export default{
     },
 
     //Enviar el pedido
-    [types.SEND_ORDER_REQUEST] (state, { order }) {
+    [types.SEND_ORDER_REQUEST] (state,  { order } ) {
         state.pushingData = true,
         state.pushingOrder = true
         state.error = null
-        Vue.set(state.orders, order.id, order)
+        console.log(order)
+        state.orders.push(order)
     },
-    [types.SEND_ORDER_SUCCESS] (state , { response }) {
+    [types.SEND_ORDER_SUCCESS] (state) {
         state.pushingData = false,
-        state.pushingOrder = false,
+        state.pushingOrder = true,
         state.productsInCart = {}
         localStorage.removeItem('cart_'+state.tableID)
-        Vue.set(state.orders, response.id, response)
         localStorage.setItem('orders_'+state.tableID, JSON.stringify(state.orders))
         state.error = null
         
     },
     [types.SEND_ORDER_FAILURE] (state, { error } ) {
         state.pushingData = false,
+        state.pushingOrder=false,
         state.error = error
     },
     [types.UPDATE_ORDERS_STATUS_REQUEST] (state) {
@@ -127,6 +144,7 @@ export default{
     },
     [types.UPDATE_ORDERS_STATUS_SUCCESS] (state,  { response }) {
         state.fetchingData = false
+        state.pushingOrder = false
         state.error = null
         state.orders = response
         localStorage.setItem('orders_'+state.tableID, JSON.stringify(state.orders))

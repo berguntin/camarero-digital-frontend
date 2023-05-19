@@ -2,13 +2,13 @@
 
     <section class="orders container">
         <h5>Pedidos realizados</h5>
-        <table v-for="order in orders.toReversed()" :key="order.id">
+        <table v-for="order in this.getOrders().toReversed()" :key="order.id">
             <thead>
             <tr>
-                <td>
+                <td v-bind:style="{ color: calculateTimeFromOrder(order.date) < 10 ? 'green' : calculateTimeFromOrder(order.date) < 20 ? 'orange' : 'red' }">
                     Hace {{ calculateTimeFromOrder(order.date) }} min
                 </td>
-                <td class="order-status">
+                <td class="order-status" v-bind:style="{ color: order.status === 'received' ? 'green' : order.status ==='preparing' ? 'orange' : 'black'}">
                     {{ translateStatus(order.status) }}
                 </td>
             </tr>
@@ -21,7 +21,7 @@
             <tfoot>
                 <tr>
                     <td>Importe</td>
-                    <td> {{ order.totalPrice }} &euro;</td>
+                    <td>{{ order.totalPrice }} &euro;</td>
                 </tr>
                 
             </tfoot>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 
 export default {
@@ -62,15 +62,18 @@ export default {
         ...mapActions([
             'updateOrderStatus'
         ]),
+        ...mapGetters([
+            'getOrders'
+        ]),
         startUpdatingOrders() {
             this.interval = setInterval( () => {
                 this.updateOrderStatus(this.tableID)
-                this.totalOrdersPrice()
             }, 30000) //Actualizamos el estado cada 30 segundos
         },
         translateStatus(status){
             switch (status){
-                case 'recieved': return 'recibido'
+                case 'sent': return 'enviado'
+                case 'received': return 'recibido'
                 case 'preparing' : return 'en preparacion....'
                 case 'served' : return 'servido!'
                 case 'payed' : return 'pagado'
@@ -78,12 +81,13 @@ export default {
             }
         },
         totalOrdersPrice(){
-            if (this.orders !== []) {
-
-                const prices = this.orders.map(order => order.totalPrice)                          
+            if (this.getOrders() !== []) {
+                const prices = this.getOrders().map(order => order.totalPrice)                          
                 const ordersTotalAmount = prices.reduce((curr, accum) => curr + accum, 0)
-
-                return ordersTotalAmount.toFixed(2)
+                const formatedResult = ordersTotalAmount.toFixed(2)
+                return Number.isNaN(formatedResult) ? 'Calculando...' : formatedResult
+            }else if (this.getOrders().length === 1 ){
+                return this.getOrders().map(order => order.totalPrice) 
             }
             else return 0
             
@@ -94,7 +98,8 @@ export default {
     },  
     beforeDestroy() {
         clearInterval(this.interval)
-    }
+    },
+   
 
 
 }
@@ -114,17 +119,26 @@ export default {
         font-size: smaller;
         width: 100%;
         
+        thead td{
+            width: 50%;
+            text-align: start;
+        }
+        
         td{
             padding: 2px 5px 2px 5px;
         }
-        tbody{
+        tbody td{
             font-size: 0.8em;
-            text-align: center;
+            text-align: start;
+        }
+        tfoot td{
+            width: 50%;
+            text-align: end;
         }
         
     }
     .order-status{
-            color: rgb(8, 194, 8);
+
             text-align: end;
         }
     .submit-payment{
