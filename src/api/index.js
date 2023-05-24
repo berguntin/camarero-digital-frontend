@@ -68,10 +68,7 @@ export default {
             fetch(API_URL + '/api/orders/' + tableID)
                 .then(response => response.json())
                 .then(data => resolve(data))
-                .catch(error => {
-                    console.log(error)
-                    reject(error)
-                })
+                .catch(error => reject(error))
         })
     }       
 }

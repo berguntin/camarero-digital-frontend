@@ -4,12 +4,8 @@
     <h1>Bienvenid@ a la app</h1>
     <p>Para utilizar las funcionalidades de la misma, debes seleccionar una mesa escaneando el QR </p>
     <div class="qr-scaner">
-  <div class="corner top-left"></div>
-  <div class="corner top-right"></div>
-  <div class="corner bottom-left"></div>
-  <div class="corner bottom-right"></div>
-  <video id="preview"></video>
-  </div>
+      <video id="preview"></video>
+    </div>
 
 
   </main>
@@ -19,9 +15,13 @@
 <script>
 import jsQR from 'jsqr';
 
-
 export default {
   name: 'HomeView',
+  data() {
+    return{
+     authenticating: false
+    }  
+  },
   methods: { 
     async doLogin(table){
       await this.$store.dispatch('askForToken', table);
@@ -30,8 +30,11 @@ export default {
     async goTo(qrCode){
       try {
         const url = new URL(qrCode);
-        if(url.origin === 'https://berguntin.github.io/'){
+        //nos aseguramos que el QR no nos dirija a sitios externos
+        if(url.origin === window.location.origin){ 
+          this.authenticating = true
           const table = url.searchParams.get('tableID')
+          console.log('autenticado')
           await this.doLogin(table)
         } 
       } catch (error) {
@@ -40,7 +43,7 @@ export default {
     },
     setupCamera() {
       let video = document.getElementById('preview');
-
+      const vm = this; //apunta al contexto del componente
       if (navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
           .then(function(stream) {
@@ -64,11 +67,13 @@ export default {
           let qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
           if (qrCode) {
+            console.log('QR detectado!')
           // Detener la transmisión de la cámara
             video.srcObject.getTracks().forEach(track => track.stop());
             video.srcObject = null;
             video.remove(); //Libera el uso de la camara
-            this.goTo(qrCode.data);
+            vm.goTo(qrCode.data);
+            return;
           }
         }
         requestAnimationFrame(tick);
@@ -98,61 +103,6 @@ export default {
     height: 100%;
   }
 
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    background: #000;
-    width: 2px;
-    height: 50%;
-  }
-
-  &:before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &:after {
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    height: 2px;
-  }
-
-  .corner {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    border: 2px solid #000;
-  }
-
-  .corner.top-left {
-    border-bottom: none;
-    border-right: none;
-    top: -2px;
-    left: -2px;
-  }
-
-  .corner.top-right {
-    border-bottom: none;
-    border-left: none;
-    top: -2px;
-    right: -2px;
-  }
-
-  .corner.bottom-left {
-    border-top: none;
-    border-right: none;
-    bottom: -2px;
-    left: -2px;
-  }
-
-  .corner.bottom-right {
-    border-top: none;
-    border-left: none;
-    bottom: -2px;
-    right: -2px;
-  }
 }
 
 

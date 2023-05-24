@@ -2,7 +2,7 @@
 
     <section class="orders container">
         <h5>Pedidos realizados</h5>
-        <table v-for="order in this.getOrders.toReversed()" :key="order.id">
+        <table v-for="order in orders" :key="order.id">
             <thead>
             <tr>
                 <td v-bind:style="{ color: calculateTimeFromOrder(order.date) < 10 ? 'green' : calculateTimeFromOrder(order.date) < 20 ? 'orange' : 'red' }">
@@ -44,8 +44,7 @@ export default {
     },
     computed: {
         ...mapState([
-            'tableID',
-            'orders'
+            'tableID'
         ]),
         ...mapGetters([
             'getOrders'
@@ -63,7 +62,10 @@ export default {
                 return this.getOrders.map(order => order.totalPrice)[0];
             }
             else return 0
-    }
+        },
+        orders(){
+            return this.getOrders.toReversed()
+        }
     },
     methods: {
         calculateTimeFromOrder(time){
