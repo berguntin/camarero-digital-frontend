@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    
       <nav-component></nav-component>
       <router-view/>
-
+      <app-error v-if="error" :error="error"></app-error>
   </div>
   
 </template>
@@ -11,31 +10,20 @@
 <script>
 
 import NavComponent from '@/components/NavComponent'
-import { mapActions, mapGetters } from 'vuex';
-
+import AppError from '@/components/ErroComponent'
+import { mapState } from 'vuex';
 
 export default {
   name: "App",
   components: {
       NavComponent,
+      AppError
   },
   computed: {
-    ...mapGetters([
-      'getTableID'
+    ...mapState([
+      'error'
     ])
-  },
-  methods: {
-    ...mapActions([
-      'initializeTableID',
-      'askForToken'
-    ])
-  },
-  created() {
-        //solicitamos el token para verificar que la mesa existe
-        const tableID = this.$route.query.tableID || this.state.tableID
-        this.askForToken(tableID)
-    }  
-  
+  }
 }
 
 </script>

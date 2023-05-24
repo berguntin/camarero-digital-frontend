@@ -2,7 +2,7 @@
 
     <section class="orders container">
         <h5>Pedidos realizados</h5>
-        <table v-for="order in this.getOrders().toReversed()" :key="order.id">
+        <table v-for="order in this.getOrders.toReversed()" :key="order.id">
             <thead>
             <tr>
                 <td v-bind:style="{ color: calculateTimeFromOrder(order.date) < 10 ? 'green' : calculateTimeFromOrder(order.date) < 20 ? 'orange' : 'red' }">
@@ -26,7 +26,7 @@
                 
             </tfoot>
         </table>
-        <button class="submit-payment">Pagar {{ totalOrdersPrice() }} &euro;</button>
+        <button class="submit-payment">Pagar {{ ordersTotalAmount }} &euro;</button>
     </section>
 
 </template>
@@ -46,7 +46,24 @@ export default {
         ...mapState([
             'tableID',
             'orders'
-        ])
+        ]),
+        ...mapGetters([
+            'getOrders'
+        ]),
+        ordersTotalAmount(){
+            if (this.getOrders && this.getOrders.length > 1) {
+                const prices = this.getOrders.map(order => order.totalPrice);
+                const ordersTotal = prices.reduce((accum, curr) => accum + curr, 0);
+                
+                const formattedResult = ordersTotal.toFixed(2);
+                return formattedResult;
+        
+            } else if(this.getOrders.length === 1){
+                //Devolvemos el precio del unico elemento
+                return this.getOrders.map(order => order.totalPrice)[0];
+            }
+            else return 0
+    }
     },
     methods: {
         calculateTimeFromOrder(time){
@@ -61,9 +78,6 @@ export default {
         },
         ...mapActions([
             'updateOrderStatus'
-        ]),
-        ...mapGetters([
-            'getOrders'
         ]),
         startUpdatingOrders() {
             this.interval = setInterval( () => {
@@ -80,18 +94,8 @@ export default {
                 default: status
             }
         },
-        totalOrdersPrice(){
-            if (this.getOrders() !== []) {
-                const prices = this.getOrders().map(order => order.totalPrice)                          
-                const ordersTotalAmount = prices.reduce((curr, accum) => curr + accum, 0)
-                const formatedResult = ordersTotalAmount.toFixed(2)
-                return Number.isNaN(formatedResult) ? 'Calculando...' : formatedResult
-            }else if (this.getOrders().length === 1 ){
-                return this.getOrders().map(order => order.totalPrice) 
-            }
-            else return 0
-            
-        }
+       
+
     },
     created() {
         this.startUpdatingOrders()

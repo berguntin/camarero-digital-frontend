@@ -6,37 +6,38 @@ export default{
 
     [types.FETCH_TOKEN_REQUEST] (state) {
         state.fetchingData = true
+        state.auth = false
         state.error = null
+        state.tableID = null
     },
-    [types.FETCH_TOKEN_SUCCESS] (state, { tableID, token }){
+    [types.FETCH_TOKEN_SUCCESS] (state, { tableID }){
         state.fetchingData = false
         state.error = null
+        state.auth = true
         state.tableID = tableID
-        state.token = token
-        localStorage.setItem('AuthToken', token)
+        
     },
     [types.FETCH_TOKEN_FAILURE] (state, { error }) {
         state.fetchingData = false
+        state.auth = false
         state.error = error
-    },
-    //Guardar el parametro TableId
-    [types.SET_TABLE_ID](state, tableID) {
-        state.tableID = tableID
-        /* localStorage.setItem('tableID', tableID); */
     },
     
     //Traer las categorias de la API
     [types.FETCH_CATEGORIES_REQUEST] (state) {
         state.fetchingData = true
+        state.fetchingCategories = true
         state.error = null
     },
     [types.FETCH_CATEGORIES_SUCCESS] (state, { categories }) {
         state.fetchingData = false
+        state.fetchingCategories = false
         state.error = null
         state.categories =  categories 
     },
     [types.FETCH_CATEGORIES_FAILURE] (state, { error }) {
         state.fetchingData = false
+        state.fetchingCategories = false
         state.error = error
     },
 
@@ -71,7 +72,6 @@ export default{
 
     //Eliminar un producto del carrito
     [types.DELETE_FROM_CART] (state, { product }){
- 
         Vue.delete(state.productsInCart, product.id)
        //Guardamos el objeto en localStorage para persististencia
        localStorage.setItem('cart_'+state.tableID, JSON.stringify(state.productsInCart))
@@ -79,7 +79,6 @@ export default{
     
     //Agregar una unidad a un producto en el carrito
     [types.ADD_QUANTITY_FROM_CART] (state, { product }) {
-        console.log('Aumentamos una unidad de ' + product.name)
       Vue.set(state.productsInCart, product.id, {...product, quantity: product.quantity + 1})
         //Guardamos el objeto en localStorage para persististencia
        localStorage.setItem('cart_'+state.tableID, JSON.stringify(state.productsInCart))
@@ -121,12 +120,11 @@ export default{
         state.pushingData = true,
         state.pushingOrder = true
         state.error = null
-        console.log(order)
         state.orders.push(order)
     },
     [types.SEND_ORDER_SUCCESS] (state) {
         state.pushingData = false,
-        state.pushingOrder = true,
+        state.pushingOrder = false,
         state.productsInCart = {}
         localStorage.removeItem('cart_'+state.tableID)
         localStorage.setItem('orders_'+state.tableID, JSON.stringify(state.orders))
@@ -153,5 +151,19 @@ export default{
     [types.UPDATE_ORDERS_STATUS_FAILURE] (state, { error }){
         state.fetchingData = false
         state.error = error
+    },
+    //Reinicia todos los campos del state de la app
+    [types.CLEAR_STATE] (state) {
+        state.tableID = null,
+        state.fetchingData = false,
+        state.fetchingCategories = false,
+        state.pushingData = false,
+        state.pushingOrder = false,
+        state.error = false
+        state.orders = [],
+        state.allergensFilter = [],
+        state.vegan = null,
+        state.vegetarian = null,
+        state.productsInCart = []
     }
 }

@@ -1,16 +1,16 @@
 <template>
     <main class="container">
         <h2>Nuestra carta</h2>
-        <div v-if="error">Ha ocurrido un error inesperado</div>
         <AppMenu></AppMenu>
+       
     </main>
     
 </template>
 
 <script>
 import AppMenu from '@/components/products/CategoryMenuComponent'
-import { mapState } from 'vuex';
 
+import { mapState } from 'vuex'
 export default{
     name: 'MenuView',
     components: {

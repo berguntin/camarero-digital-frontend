@@ -1,8 +1,10 @@
-const tableID = localStorage.getItem('tableID')
+const tableID = localStorage.getItem('tableID') || null
 
 export default {
-    tableID: 'TEST',
+    tableID,
+    auth: false,
     fetchingData: false,
+    fetchingCategories: false,
     pushingData: false,
     pushingOrder: false,
     error: null,
@@ -25,4 +27,5 @@ export default {
     vegetarian: null,
     //Si tenemos el carrito en el localStorage, lo cargamos
     productsInCart: JSON.parse(localStorage.getItem('cart_'+tableID)) || [],
-}
+    
+} 

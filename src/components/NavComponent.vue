@@ -1,9 +1,9 @@
 <template>
     <header>
          <nav>
-            <router-link to="/">Home</router-link> |
-            <router-link to="/menu">Menu</router-link> |
-            <router-link to="/cart">
+            <router-link to="/" alt="ir al inicio">Home</router-link> |
+            <router-link alt="ver el menú" to="/menu">Menu</router-link> |
+            <router-link name="carrito" alt="ver el carrito" to="/cart">
               <font-awesome-icon icon="fa-solid fa-basket-shopping" />
               <small>{{ productsInCart }}</small>
             </router-link>

@@ -10,8 +10,8 @@
             :total="getCartTotalAmount"
         ></app-cart>
         <div v-if="pushingOrder" class="sending-order">Enviando pedido<span class="loading">.</span></div>
-        <app-error v-if="error" :error="error"></app-error>
         <app-order v-if="thereAreOrders"></app-order>
+       
 
     </main>
 </template>
@@ -19,7 +19,6 @@
 <script>
 import AppCart from '@/components/cart/CartComponent.vue'
 import AppOrder from '@/components/cart/OrderPaymentComponent.vue'
-import AppError from '@/components/error.vue'
 
 import { RouterLink } from 'vue-router'
 import { mapGetters, mapState } from 'vuex'
@@ -30,7 +29,6 @@ export default{
     AppCart,
     RouterLink,
     AppOrder,
-    AppError
     },
     computed: {
         ...mapGetters([
@@ -40,15 +38,14 @@ export default{
             'getOrders'
         ]),
         ...mapState([
-            'orders',
             'pushingOrder',
-            'error'
+            
         ]),
         refreshCartcount(){
             return this.getNumberOfProductsInCart
         },
         thereAreOrders(){
-            return Array.isArray(this.getOrders) && this.getOrders.length > 0
+            return  this.getOrders.length > 0
         }
     },
    

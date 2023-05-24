@@ -1,7 +1,9 @@
 <template>
     <div class="container">
        
-        <product-cart-card v-for="product in cart" :key="product.id" :product="product">
+        <product-cart-card v-for="product in cart" 
+                            :key="product.id" 
+                            :product="product">
         
         </product-cart-card>
         <div class="total-amount">
@@ -33,7 +35,6 @@ import { mapActions } from 'vuex';
                 'submitOrder'
             ])
         }
-       
     }
 
 </script>
