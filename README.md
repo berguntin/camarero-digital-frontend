@@ -14,5 +14,5 @@ Puedes acceder a la app a través de los códigos QR:
 ### Códigos qr
 | Mesa 1                                 | Mesa 2                                 | Mesa 3                                 |
 |----------------------------------------|----------------------------------------|----------------------------------------|
-| ![QR enlace a mesa 1](resources/qrCodes/mesa_1.png){: width="100"} | ![QR enlace a mesa 2](resources/qrCodes/mesa_2.png) | ![QR enlace a mesa 3](resources/qrCodes/mesa_3.png) |
+| ![QR enlace a mesa 1](resources/qrCodes/mesa_1.png) | ![QR enlace a mesa 2](resources/qrCodes/mesa_2.png) | ![QR enlace a mesa 3](resources/qrCodes/mesa_3.png) |
 
