@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import HomeView from '@/views/HomeView';
+import LoginView from '@/views/LoginView';
 import CartView from '@/views/CartView';
 import AppCategories from '@/components/products/CategoryProductsComponent';
 import MenuView from '@/views/MenuView';
+import HomeView from '@/views/HomeView';
 import jwtDecode from 'jwt-decode';
 import store from '@/store';
 import state from '@/store/state';
@@ -16,6 +17,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
   },
   {
     path: '/menu',
@@ -56,10 +62,16 @@ router.beforeEach((to, from, next) => {
         const decodedToken = jwtDecode(localToken);
         const dateNow = Date.now() / 1000; //segundos
 
-        return decodedToken.exp > dateNow ? next() : next({name: 'home'});
+        if(decodedToken.exp > dateNow){
+          next()
+        } else {
+          const error = new Error('Tu sesión ha caducado!'); 
+          store.dispatch('captureError', error);
+          next({name: 'login'});
+        }
       }
       else{
-        next({ name: 'home'});
+        next({ name: 'login'});
       }
     }
   else next();
@@ -74,7 +86,7 @@ router.beforeResolve( async (to, from, next) => {
       next()
     
     }catch(error){
-      next({ name: 'home'})
+      next({ name: 'login'})
     }
   }
   else next();

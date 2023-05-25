@@ -110,8 +110,13 @@ export default {
     clearState( {commit }) {
         commit(types.CLEAR_STATE)
         localStorage.clear()
+    },
+    captureError({ commit }, error){
+        commit(types.CAPTURE_ERROR, error)
+    },
+    clearError( {commit}){
+        commit(types.CLEAR_ERROR)
     }
-   
     
 }
     

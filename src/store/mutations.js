@@ -165,5 +165,13 @@ export default{
         state.vegan = null,
         state.vegetarian = null,
         state.productsInCart = []
+    },
+
+    //Pasa mensaje de error al estado
+    [types.CAPTURE_ERROR] (state, error){
+        state.error = error
+    },
+    [types.CLEAR_ERROR] (state) {
+        state.error = null
     }
 }
