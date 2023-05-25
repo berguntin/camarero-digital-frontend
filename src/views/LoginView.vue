@@ -33,17 +33,17 @@ export default {
       this.authenticating = true;
       return new Promise((resolve, reject) => {
           this.$store.dispatch('askForToken', table)
-            .then(()=> { 
-              this.authenticating = true;
-              resolve()
+            .then(()=> resolve())
+            .catch ((error) => {
+              this.captureError(error)
+              reject(error)
             })
-            .catch ((error) => reject(error))
           });
     },
     async directLogin(tableID){
-      await this.doLogin(tableID);
-      console.log('Resuelta')
-      this.$router.push('/menu');
+      await this.doLogin(tableID).then(
+        this.$router.push('/menu')
+      );
     },
     async goTo(qrCode) {
         try {
@@ -52,8 +52,9 @@ export default {
           // Nos aseguramos de que el QR no nos dirija a sitios externos
           if (url.origin === window.location.origin) {
             const table = url.searchParams.get('tableID');
-            await this.doLogin(table);
-            this.$router.push('/menu');
+            await this.doLogin(table).then(
+              this.$router.push('/menu')
+            );
           } else {
             const error = Error('El QR no es válido, intenta de nuevo');
             this.captureError(error);
@@ -108,7 +109,7 @@ export default {
   },
   mounted() {
     this.setupCamera();
-    
+ 
   }
 }
 

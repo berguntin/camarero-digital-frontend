@@ -2,7 +2,6 @@
     <div class="container">
         <app-filter></app-filter>
       <div class="products">
-        <span v-if="fetchingData">Cargando productos...</span>
         <AppProduct v-for="product in filter" 
             :key="product.id" 
             :product="product"

@@ -72,12 +72,12 @@ nav {
         bottom: 0px;
         right: 0px;
         width: 100vw;
-        height: 15vh;
+        height: 10vh;
         background-color:white;
         z-index: 10;
     }
     .products {
-      margin-bottom: calc(100vh - 80vh);
+      margin-bottom: calc(100vh - 90vh);
     }
   }
 
