@@ -33,13 +33,9 @@ export default {
         padding: 5px;
         position: fixed;
         left: 0px;
-        bottom: 0%;
+        top: 0px;
         align-self: center;
-
-        img {
-            width: 2%;
-            height: auto; 
-        }
+        margin-bottom: 5px;
     }
 
 </style>

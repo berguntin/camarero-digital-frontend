@@ -63,6 +63,22 @@ nav {
     right: 10vw;
     font-size: smaller;
   }
+  
 }
+@media screen and (max-width: 767px) and (orientation: portrait) {
+    /* Estilos para dispositivos móviles en orientación vertical */
+    header{
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: 100vw;
+        height: 15vh;
+        background-color:white;
+        z-index: 10;
+    }
+    .products {
+      margin-bottom: calc(100vh - 80vh);
+    }
+  }
 
 </style>

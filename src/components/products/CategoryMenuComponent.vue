@@ -9,7 +9,8 @@
         <category-button
         v-for="(category, index) in categories" 
         :key="index"
-        :name="category">
+        :name="category"
+        v-no-double-click>
     </category-button>
     </div>
     
@@ -51,7 +52,6 @@ export default{
     justify-content: flex-start;
     flex-direction: column;
     max-width: 200px;
-    height: 90vh;
     margin-top: 25px;
 }
  a{

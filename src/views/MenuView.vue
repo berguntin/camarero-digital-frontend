@@ -10,22 +10,11 @@
 <script>
 import AppMenu from '@/components/products/CategoryMenuComponent'
 
-import { mapState } from 'vuex'
 export default{
     name: 'MenuView',
     components: {
         AppMenu,
         
-    },
-    computed: {
-        ...mapState([
-            'error'
-        ])
-    },
-    data() {
-        return {
-            showFilter: true
-        }
     }
     
 }
@@ -38,5 +27,5 @@ export default{
         justify-content: center;
         align-items: center;
     }
-
+   
 </style>

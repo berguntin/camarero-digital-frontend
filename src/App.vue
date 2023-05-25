@@ -1,7 +1,9 @@
 <template>
   <div id="app">
       <nav-component></nav-component>
+     
       <router-view/>
+      
       <app-error v-if="error" :error="error"></app-error>
   </div>
   

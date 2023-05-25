@@ -33,7 +33,14 @@ Vue.directive('click-outside', {
     document.body.removeEventListener('click', el.clickOutsideEvent);
   },
 });
-
+/**Elimina el doble click para mejorar UX en algunos botones */
+Vue.directive('no-double-click', {
+  inserted(el) {
+    el.addEventListener('dblclick', (event) => {
+      event.preventDefault();
+    });
+  },
+});
 
 new Vue({
   router,

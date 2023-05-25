@@ -13,11 +13,11 @@
       <div class="product-controls">
         <div class="product-quantity">
           <label for="quantity">Cantidad:</label>
-          <button @click="subtractQuantity">-</button>
+          <button v-no-double-click @click="subtractQuantity">-</button>
           <input type="number" name="quantity" id="quantity" step="1" :value="this.selectedQuantity"/>
-          <button @click="addQuantity">+</button>
+          <button v-no-double-click @click="addQuantity">+</button>
         </div>
-        <button @click="addToCart">Añadir</button>
+        <button v-no-double-click @click="addToCart">Añadir</button>
       </div>
       
        <small v-if="isOrdered">En tu pedido: {{ getQuantityInCart }}</small>
