@@ -1,14 +1,18 @@
 # camarero-digital
 
-Este el mi proyecto final para el CFGS de desarrollo de aplicaciones web
+Este es mi proyecto final para el CFGS de desarrollo de aplicaciones web. Está desarrollado con Vue.js y se apoya en una API desarrollada en NodeJS, Express y Mongoose, que puedes ver en este [repositorio](https://github.com/berguntin/camarero-virtual-api).
 
-La app es una evolución del sistema habitual que muchos restaurantes han adoptado tras la pandemia, en donde puedes acceder a una carta en pdf escaneando un código QR.
+La app es una evolución del sistema que muchos restaurantes han adoptado tras la pandemia, en donde puedes acceder a una carta en pdf escaneando un código QR.
 
-Está diseñada bajo el enfoque "Mobile-first", pero la experiencia de usuario es excelente en Desktop igualmente.
+El sistema autentica al usuario mediante un JWT tras verificar que la mesa solicitada existe en la base de datos.
+
+Permite realizar pedidos y hacer el seguimiento del estado del mismo, para lo que implementa un método en la api que simula la interacción con la cocina del local.
+
+Está diseñada bajo el enfoque "Mobile-first", pero la experiencia de usuario es  igualmente excelente en Desktop.
 
 
 ## Acceso a la app
-Puedes acceder a la app a través de los códigos QR: 
+Puedes acceder a la app a través de los códigos QR: <br/>
 (Ten en cuenta que está desplegada en un servidor gratuíto que se encuentra inactivo hasta que recibe alguna petición, por lo que la primera carga puede demorar un poco)
 
 ### Códigos qr
