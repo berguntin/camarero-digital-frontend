@@ -30,6 +30,10 @@ input[type="number"] {
 }
 /**********************************************/
 @media screen and (max-width: 767px) and (orientation: portrait){
+    body{
+        font-size: 16px;
+    }
+
     #app {
         overflow: auto;
         margin-bottom: calc(100vh - 75vh);

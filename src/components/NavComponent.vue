@@ -1,8 +1,10 @@
 <template>
     <header>
          <nav>
-            <router-link to="/" alt="ir al inicio">Home</router-link> |
-            <router-link alt="ver el menú" to="/menu">Menu</router-link> |
+            <router-link to="/" alt="ir al inicio">
+              <font-awesome-icon icon="fa-solid fa-house" />
+            </router-link> |
+            <router-link alt="ver la carta" to="/menu">Carta</router-link> |
             <router-link name="carrito" alt="ver el carrito" to="/cart">
               <font-awesome-icon icon="fa-solid fa-basket-shopping" />
               <small>{{ productsInCart }}</small>
@@ -75,6 +77,12 @@ nav {
         height: 10vh;
         background-color:white;
         z-index: 10;
+        
+        .table-id{
+          position: absolute;
+          bottom: 0px;
+          left: 25px;
+  }
     }
     .products {
       margin-bottom: calc(100vh - 90vh);

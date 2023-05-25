@@ -3,15 +3,15 @@
     <div class="filter-component" v-click-outside="hide" >
         <div class="filter-buttons">
             <button class="allergens-filter-button" @click="show = !show">
-                 {{ show ? 'Ocultar filtro X ' : '🌾 Filtro alergenos' }}
+                 {{ show ? 'Ocultar filtro X ' : '🌾 Filtro alérgenos' }}
             </button>
             <button class="diet-filter-button"
             @click="toggleDietType('vegan')">
-                🥦
+                Vegano
             </button>
             <button class="diet-filter-button"
             @click="toggleDietType('vegetarian')">
-                🥕
+                Vegetariano
             </button>
         </div>
         <div class="allergens-card" v-show="show">
@@ -150,7 +150,7 @@ export default {
         margin-top: 0.5em;
         text-align: start;
         width: 50%;
-        font-size: smaller;
+        font-size: 0.9em;
         cursor: pointer;
         padding-left: 0.5em;
     }
