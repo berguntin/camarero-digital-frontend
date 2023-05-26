@@ -1,5 +1,5 @@
 <template>
-  
+    
     <div class="product-card">
       <div class="product-header">
         <div class="product-name">{{ product.name }}</div>
@@ -17,11 +17,13 @@
           <input type="number" name="quantity" id="quantity" step="1" :value="this.selectedQuantity"/>
           <button @click="addQuantity">+</button>
         </div>
-          <button class="button" @click="addToCart">Añadir</button>
+          <button :class="{ 'button-added': isAdded }" @click="addToCart">
+            <span v-if="isAdded">Añadido!</span>
+            <span v-else>Añadir</span>
+          </button>
       </div>
        <small v-if="isOrdered">En tu pedido: {{ getQuantityInCart }}</small>
     </div>
-
 </template>
 
 <script>
@@ -64,6 +66,10 @@ export default {
       this.$store.dispatch('addProductToCart', { modifiedProduct });
       this.isAdded=true;
       this.resetQuantity(); //devolvemos la cantidad a 1 para mejorar UX
+      //Devolvemos al estado inicial para cambiar clase css
+      setTimeout(() => {
+                      this.isAdded = false;
+                      }, 2000);
     },
     addQuantity() {
       this.selectedQuantity++;
@@ -77,7 +83,6 @@ export default {
       this.selectedQuantity = 1;
     },
     
-
   }
 }
 </script>
@@ -175,23 +180,23 @@ export default {
         margin-top: 5px;
         
       }
-      .v-enter-active{
-        animation: bounce-in 10s;
+      .button-added {
+            color: white;
+            background-color: rgb(11, 139, 97);
+            animation: pulse 0.5s;
+            transition: 1s ease-in-out;
+            }
+      @keyframes pulse {
+        0% {
+          transform: scale(1.1) ;
+        }
+        25% {
+          transform: scale(1.15) ;
+        }
+        50% {
+          transform: scale(1.25) ;
+        }
       }
-      .v-leave-active{
-        animation: bounce-in 10s reverse;
-      }
-      @keyframes bounce-in {
-      0% {
-        transform: scale(0);
-      }
-      50% {
-        transform: scale(1.25);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
   }
 
 }
