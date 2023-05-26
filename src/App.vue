@@ -12,7 +12,7 @@
 <script>
 
 import NavComponent from '@/components/NavComponent'
-import AppError from '@/components/ErroComponent'
+import AppError from '@/components/ErrorComponent'
 import { mapState } from 'vuex';
 
 export default {
