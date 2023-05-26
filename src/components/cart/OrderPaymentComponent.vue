@@ -115,6 +115,7 @@ export default {
 
     .orders{
         margin-top: 30px;
+        margin-bottom: 20vh;
         padding: 30px;
         max-width: 400px;
     }
