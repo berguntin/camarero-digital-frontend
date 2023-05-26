@@ -75,8 +75,7 @@ export default {
                                     price: product.price
                                     }))
         let totalPrice = items.map(item => item.price * item.quantity).reduce((curr, accum) => curr+accum, 0)
-        totalPrice = totalPrice.toFixed(2)
-        
+        totalPrice = Number(totalPrice.toFixed(2))
         //Creamos la Order tal y como espera la API
         const order = {
             table: state.tableID,

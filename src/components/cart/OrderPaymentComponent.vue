@@ -51,9 +51,8 @@ export default {
         ]),
         ordersTotalAmount(){
             if (this.getOrders && this.getOrders.length > 1) {
-                const prices = this.getOrders.map(order => order.totalPrice);
+                const prices = this.getOrders.map(order => order.totalPrice );
                 const ordersTotal = prices.reduce((accum, curr) => accum + curr, 0);
-                
                 const formattedResult = ordersTotal.toFixed(2);
                 return formattedResult;
         
