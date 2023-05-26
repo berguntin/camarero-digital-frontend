@@ -23,7 +23,6 @@
                     <td>Importe</td>
                     <td>{{ order.totalPrice }} &euro;</td>
                 </tr>
-                
             </tfoot>
         </table>
         <button class="submit-payment">Pagar {{ ordersTotalAmount }} &euro;</button>
@@ -33,7 +32,6 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-
 
 export default {
     name: 'AppOrder',
@@ -100,15 +98,8 @@ export default {
     },
     created() {
         this.startUpdatingOrders()
-    },  
-    beforeDestroy() {
-        clearInterval(this.interval)
     },
-   
-
-
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -144,7 +135,6 @@ export default {
         
     }
     .order-status{
-
             text-align: end;
         }
     .submit-payment{

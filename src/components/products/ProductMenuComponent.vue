@@ -13,13 +13,12 @@
       <div class="product-controls">
         <div class="product-quantity">
           <label for="quantity">Cantidad:</label>
-          <button v-no-double-click @click="subtractQuantity">-</button>
+          <button @click="subtractQuantity">-</button>
           <input type="number" name="quantity" id="quantity" step="1" :value="this.selectedQuantity"/>
-          <button v-no-double-click @click="addQuantity">+</button>
+          <button @click="addQuantity">+</button>
         </div>
-        <button v-no-double-click @click="addToCart">Añadir</button>
+          <button class="button" @click="addToCart">Añadir</button>
       </div>
-      
        <small v-if="isOrdered">En tu pedido: {{ getQuantityInCart }}</small>
     </div>
 
@@ -36,6 +35,7 @@ export default {
   data(){
     return {
       selectedQuantity: 1,
+      isAdded: false
     }
   },
   computed:{
@@ -45,13 +45,13 @@ export default {
       'getIsVegetarian'
     ]),
     productInCart() {
-      return this.getProductsInCart.find(product => product.id === this.product.id)
+      return this.getProductsInCart.find(product => product.id === this.product.id);
     },
     getQuantityInCart() {
-      return this.productInCart ? this.productInCart.quantity : 0
+      return this.productInCart ? this.productInCart.quantity : 0;
     },
     isOrdered() {
-      return !!this.productInCart
+      return !!this.productInCart;
     }
   },
   methods: {
@@ -60,20 +60,21 @@ export default {
     ]),
     addToCart() {
       //Creamos un nuevo objeto con la cantidad seleccionada y lo guardamos
-      const modifiedProduct = {...this.product, quantity: this.selectedQuantity}
-      this.$store.dispatch('addProductToCart', { modifiedProduct })
-      this.resetQuantity() //devolvemos la cantidad a 1 para mejorar UX
+      const modifiedProduct = {...this.product, quantity: this.selectedQuantity};
+      this.$store.dispatch('addProductToCart', { modifiedProduct });
+      this.isAdded=true;
+      this.resetQuantity(); //devolvemos la cantidad a 1 para mejorar UX
     },
     addQuantity() {
-      this.selectedQuantity++
+      this.selectedQuantity++;
     },
     subtractQuantity() {
       if (this.selectedQuantity > 1) {
-        this.selectedQuantity--
+        this.selectedQuantity--;
       }
     },
     resetQuantity() {
-      this.selectedQuantity = 1
+      this.selectedQuantity = 1;
     },
     
 
@@ -174,10 +175,25 @@ export default {
         margin-top: 5px;
         
       }
-  
+      .v-enter-active{
+        animation: bounce-in 10s;
+      }
+      .v-leave-active{
+        animation: bounce-in 10s reverse;
+      }
+      @keyframes bounce-in {
+      0% {
+        transform: scale(0);
+      }
+      50% {
+        transform: scale(1.25);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
   }
 
 }
-
 
 </style>
