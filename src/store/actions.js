@@ -100,7 +100,6 @@ export default {
 
         API.getOrderStatus(tableID)
             .then(response => {
-                
                 commit(types.UPDATE_ORDERS_STATUS_SUCCESS, { response })
             })
             .catch(error => commit(types.UPDATE_ORDERS_STATUS_FAILURE, { error }))

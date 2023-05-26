@@ -92,9 +92,9 @@ nav {
        box-sizing: border-box;
         position: fixed;
         bottom: 0px;
+        left: 0px;
         width: 100%;
-        height: 15vh;
-        padding: 20px;
+        height: auto;
         background-color:white;
         z-index: 10;
         box-shadow: 0px -2px 2px #2c3e508a;
