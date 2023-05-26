@@ -64,6 +64,7 @@
         align-items: center;
         max-width: 500px;
         margin: 2px auto;
+        margin-bottom: 20vh;
 
      }
 

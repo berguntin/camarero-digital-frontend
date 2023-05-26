@@ -70,6 +70,13 @@ export default {
         }
         return false
     },
+    stopCamera() {
+      if (this.videoStream) {
+        const tracks = this.videoStream.getVideoTracks();
+        tracks.forEach(track => track.stop());
+      }
+      this.isCameraRunning = false; // Detener la ejecución de scanQR()
+  },
     setupCamera() {
     const video = document.getElementById('preview');
     const vm = this;
@@ -85,50 +92,39 @@ export default {
           vm.scanQR(); // Iniciar la detección del código QR
         });
     }
-
-    // Resto del código...
-
-  },
-  stopCamera() {
-    if (this.videoStream) {
-      const tracks = this.videoStream.getVideoTracks();
-      tracks.forEach(track => track.stop());
-    }
-    this.isCameraRunning = false; // Detener la ejecución de scanQR()
   },
   scanQR() {
-    if (!this.isCameraRunning) {
-      return; // Detener la ejecución de scanQR() si la cámara ya no está en uso
-    }
-
-    const video = document.getElementById('preview');
-    const canvas = document.createElement("canvas");
-    const canvasElement = canvas.getContext("2d");
-
-    if (video.readyState === video.HAVE_ENOUGH_DATA) {
-      canvas.height = video.videoHeight;
-      canvas.width = video.videoWidth;
-
-      canvasElement.drawImage(video, 0, 0, canvas.width, canvas.height);
-      let imageData = canvasElement.getImageData(0, 0, canvas.width, canvas.height);
-      // Intenta leer QR
-      let qrCode = jsQR(imageData.data, imageData.width, imageData.height);
-
-      if (qrCode) {
-        this.clearError();
-        this.goTo(qrCode.data);
-        return;
+      if (!this.isCameraRunning) {
+        return; // Detener la ejecución de scanQR() si la cámara ya no está en uso
       }
-    }
-    // Sigue ejecutando hasta no encontrar QR si la cámara sigue en uso
-    if (this.isCameraRunning) {
-      requestAnimationFrame(() => this.scanQR());
-    }
+
+      const video = document.getElementById('preview');
+      const canvas = document.createElement("canvas");
+      const canvasElement = canvas.getContext("2d");
+
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+
+        canvasElement.drawImage(video, 0, 0, canvas.width, canvas.height);
+        let imageData = canvasElement.getImageData(0, 0, canvas.width, canvas.height);
+        // Intenta leer QR
+        let qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+
+        if (qrCode) {
+          this.clearError();
+          this.goTo(qrCode.data);
+          return;
+        }
+      }
+      // Sigue ejecutando hasta no encontrar QR si la cámara sigue en uso
+      if (this.isCameraRunning) {
+        requestAnimationFrame(() => this.scanQR());
+      }
     },
   },
   mounted() {
     this.setupCamera();
- 
   },
   beforeDestroy(){
     this.stopCamera();

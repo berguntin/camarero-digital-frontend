@@ -12,8 +12,7 @@
             </router-link>
             <router-link name="carrito" alt="ver el carrito" to="/cart">
               <font-awesome-icon icon="fa-solid fa-basket-shopping" />
-              <span class="navigation-text">Carrito</span>
-              <small>{{ productsInCart }}</small>
+              <span class="navigation-text">Carrito {{getNumberOfProductsInCart > 0 ? getNumberOfProductsInCart : ''}}</span>
             </router-link>
         </nav>
     </header>
@@ -33,18 +32,12 @@ export default {
         'getNumberOfProductsInCart',
         'getTableID'
       ])
-    }, 
-    watch: {
-        getNumberOfProductsInCart(newVal){
-          this.productsInCart = newVal
-
-        }
     }
 }
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 header {
   box-shadow: 1px 6px 5px -5px rgba(44, 62, 80, 0.5411764706)
 }
@@ -74,8 +67,8 @@ nav {
   }
   small{
     position: absolute;
-    top: -10px;
-    left: 25px;
+    top: 0px;
+    right: 0px;
   }
   
 }
@@ -110,7 +103,7 @@ nav {
         display: flex;
         justify-content: space-evenly;
       }
-        
+             
     }
   
     .products {
