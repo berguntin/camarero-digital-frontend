@@ -1,15 +1,20 @@
 <template>
     <header>
-         <nav>
+        <router-link v-if="getTableID" to="/login" id="table-id">Mesa: {{ getTableID }}</router-link>
+         <nav class="container navigation">
             <router-link to="/" alt="ir al inicio">
               <font-awesome-icon icon="fa-solid fa-house" />
-            </router-link> |
-            <router-link alt="ver la carta" to="/menu">Carta</router-link> |
+              <span class="navigation-text">Inicio</span>
+            </router-link>
+            <router-link alt="ver la carta" to="/menu">
+              <font-awesome-icon icon="fa-solid fa-utensils" />
+              <span class="navigation-text">Carta</span>
+            </router-link>
             <router-link name="carrito" alt="ver el carrito" to="/cart">
               <font-awesome-icon icon="fa-solid fa-basket-shopping" />
+              <span class="navigation-text">Carrito</span>
               <small>{{ productsInCart }}</small>
             </router-link>
-         <span class="table-id">Mesa: {{ getTableID }}</span>
         </nav>
     </header>
 </template>
@@ -40,18 +45,29 @@ export default {
 </script>
 
 <style lang="scss">
+
+.navigation{
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 nav {
-  padding: 30px;
+  padding: 10px;
 
   a {
     font-weight: bold;
     color: #2c3e50;
     font-size: large;
     text-decoration: none;
-    position: relative;
+    display: flex;
+    flex-direction: column;
 
     &.router-link-exact-active {
       color: #42b983;
+    }
+    .navigation-text{
+      font-size: small;
+      margin-bottom: 5px;
     }
   }
   small{
@@ -59,31 +75,37 @@ nav {
     top: -10px;
     left: 25px;
   }
-  .table-id{
-    position: absolute;
-    top: 1vh;
-    right: 10vw;
-    font-size: smaller;
-  }
   
 }
+#table-id{
+    font-size: smaller;
+    text-decoration: none;
+  }
+  
 @media screen and (max-width: 767px) and (orientation: portrait) {
     /* Estilos para dispositivos móviles en orientación vertical */
     header{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .navigation{
         position: fixed;
         bottom: 0px;
-        right: 0px;
-        width: 100vw;
-        height: 10vh;
+        width: 100%;
+        height: auto;
+        padding: 20px;
         background-color:white;
         z-index: 10;
+       
+      nav{
+        display: flex;
+        justify-content: space-evenly;
+      }
         
-        .table-id{
-          position: absolute;
-          bottom: 0px;
-          left: 25px;
-  }
     }
+  
     .products {
       margin-bottom: calc(100vh - 90vh);
     }

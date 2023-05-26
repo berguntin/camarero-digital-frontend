@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div v-no-double-click id="app">
       <nav-component></nav-component>
      
       <router-view/>
