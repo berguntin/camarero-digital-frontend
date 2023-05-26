@@ -45,7 +45,9 @@ export default {
 </script>
 
 <style lang="scss">
-
+header {
+  box-shadow: 1px 6px 5px -5px rgba(44, 62, 80, 0.5411764706)
+}
 .navigation{
   flex-direction: row;
   justify-content: space-around;
@@ -88,16 +90,21 @@ nav {
       display: flex;
       justify-content: center;
       width: 100%;
+      box-shadow: none;
     }
-    
+    .container {
+      max-width: 100%;
+    }
     .navigation{
+       box-sizing: border-box;
         position: fixed;
         bottom: 0px;
         width: 100%;
-        height: auto;
+        height: 15vh;
         padding: 20px;
         background-color:white;
         z-index: 10;
+        box-shadow: 0px -2px 2px #2c3e508a;
        
       nav{
         display: flex;
