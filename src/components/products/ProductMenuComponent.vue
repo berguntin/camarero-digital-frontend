@@ -22,7 +22,9 @@
             <span v-else>Añadir</span>
           </button>
       </div>
-       <small v-if="isOrdered">En tu pedido: {{ getQuantityInCart }}</small>
+      <div class="quantity-in-cart-info" v-if="isOrdered">
+        <small>En tu pedido: {{ getQuantityInCart }}</small>
+      </div> 
     </div>
 </template>
 
@@ -168,6 +170,7 @@ export default {
         align-items: center;
         border-radius: 5px;
         border: none;
+        background-color: transparent;
       }
      
     }
@@ -182,7 +185,7 @@ export default {
       }
       .button-added {
             color: white;
-            background-color: rgb(11, 139, 97);
+            background-color: #0b8b61;
             animation: pulse 0.5s;
             transition: 1s ease-in-out;
             }
