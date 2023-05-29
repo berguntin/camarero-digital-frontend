@@ -7,11 +7,11 @@
             </button>
             <button :class="['diet-filter-button', { 'active-vegan' : getIsVegan}]"
             @click="toggleDietType('vegan')">
-                Vegano
+            🥦 Vegano
             </button>
             <button :class="['diet-filter-button', { 'active-vegetarian' : getIsVegetarian}]"
             @click="toggleDietType('vegetarian')">
-                Vegetariano
+            🥕  Vegetariano
             </button>
         </div>
         <div class="allergens-card" v-show="show">
