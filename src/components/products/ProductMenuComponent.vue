@@ -12,9 +12,9 @@
       <div class="product-price">{{ product.price }} &euro;</div>
       <div class="product-controls">
         <div class="product-quantity">
-          <label for="quantity">Cantidad:</label>
+          <label :for="'quantity-' + product.id">Cantidad:</label>
           <button @click="subtractQuantity">-</button>
-          <input type="number" name="quantity" id="quantity" step="1" :value="this.selectedQuantity"/>
+          <input type="number" name="quantity" :id="'quantity-' + product.id" step="1" :value="this.selectedQuantity"/>
           <button @click="addQuantity">+</button>
         </div>
           <button :class="{ 'button-added': isAdded }" @click="addToCart">
