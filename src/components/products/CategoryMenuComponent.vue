@@ -7,11 +7,11 @@
    
     <div v-else>
         <category-button
-        v-for="(category, index) in categories" 
+        v-for="(category, index) in getCategories" 
         :key="index"
         :name="category"
-        v-no-double-click>
-    </category-button>
+        >
+        </category-button>
     </div>
     
 </div>
@@ -19,7 +19,7 @@
 
 <script>
 import CategoryButton from './CategoryButtonComponent'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default{
     name: 'AppMenu',
@@ -28,9 +28,10 @@ export default{
     },
     computed: {
         ...mapState([
-            'categories',
             'fetchingCategories',
-            'currentCategory'
+        ]),
+        ...mapGetters([
+            'getCategories'
         ])
     },
     methods: {
@@ -50,12 +51,17 @@ export default{
 .container-cat{
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     flex-direction: column;
     max-width: 200px;
-    margin-top: 25px;
+    height: 100%;
+    margin-top: 15px;
+    margin-bottom: 30vh;
+    
 }
  a{
-    margin: 10px;
+    margin: 30px;
+    transform: scale(1.5);
 }
 
 .loader {
