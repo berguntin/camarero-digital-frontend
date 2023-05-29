@@ -5,11 +5,11 @@
             <button class="allergens-filter-button" @click="show = !show">
                  {{ show ? 'Ocultar filtro X ' : '🌾 Filtro alérgenos' }}
             </button>
-            <button class="diet-filter-button"
+            <button :class="['diet-filter-button', { 'active-vegan' : getIsVegan}]"
             @click="toggleDietType('vegan')">
                 Vegano
             </button>
-            <button class="diet-filter-button"
+            <button :class="['diet-filter-button', { 'active-vegetarian' : getIsVegetarian}]"
             @click="toggleDietType('vegetarian')">
                 Vegetariano
             </button>
@@ -92,7 +92,9 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getAllergensFilter'
+            'getAllergensFilter',
+            'getIsVegetarian',
+            'getIsVegan'
         ])
     },
     methods: {
@@ -160,14 +162,24 @@ export default {
    
     .allergens-filter-button, .diet-filter-button{
         border: none;
+        border-radius: 2px;
         background-color: #fff;
-        box-shadow: 2px 1px 0px 0px #ccc;
+        box-shadow: 1px 1px 1px 1px #ccc;
         margin-bottom: 0.5em;
         color: #616161;
         margin-left: 3px;
 
     
     }
+    .active-vegetarian{
+        background-color: teal;
+        color: #e7fff9;
+    }
+    .active-vegan{
+       background-color:#0c4624;
+       color: #e7fff9;
+    }
+    
     .filter-buttons{ 
         width: 100%;
         align-self: center;
@@ -181,5 +193,6 @@ export default {
         top: -1000%;
         right: 0;
     }
+  
 
 </style>

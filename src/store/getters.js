@@ -2,6 +2,10 @@
 
 export default {
 
+    getProducts: (state) => {
+        return Object.values(state.products)
+    },
+
     getProductsInCart: (state) => {
         return Object.values(state.productsInCart);
     },
@@ -22,7 +26,7 @@ export default {
     getIsVegan: (state) => {
         return state.vegan;
     },
-    getIsVetetarian: (state) => {
+    getIsVegetarian: (state) => {
         return state.vegetarian;
     },
     getOrders: (state) => {

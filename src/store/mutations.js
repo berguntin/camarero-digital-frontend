@@ -110,7 +110,8 @@ export default{
     },
 
     [types.TOGGLE_DIET_TYPE] (state, diet) {
-        diet === 'vegan' ? state.vegan = !state.vegan : state.vegetarian = !state.vegetarian
+        if(diet === 'vegan') state.vegan = !state.vegan
+        if(diet === 'vegetarian') state.vegetarian = !state.vegetarian
         localStorage.setItem('vegan_'+state.tableID, state.vegan)
         localStorage.setItem('vegetarian_'+state.tableID, state.vegetarian) 
     },

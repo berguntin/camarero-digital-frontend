@@ -14,7 +14,7 @@
  <script>
  import AppProduct from './ProductMenuComponent'
  import AppFilter from '@/components/filter/FilterComponent.vue'
- import { mapState, mapActions } from 'vuex';
+ import { mapState, mapActions, mapGetters } from 'vuex';
  
  export default {
      name: "AppCategories",
@@ -31,16 +31,24 @@
             'fetchingData',
             'allergensFilter'
         ]),
+        ...mapGetters([
+            'getProducts',
+            'getAllergensFilter',
+            'getIsVegan',
+            'getIsVegetarian'
+        ]),
         
         filter(){
-            return Object.values(this.products).filter(product => {
-                return Object.values(this.allergensFilter).every(allergen => {
-                    return !Object.values(product.allergens).some(item => {
-                        return item.toLowerCase() === allergen.toLowerCase();
-                        })
-                    })
+            const whitoutAllergens =  this.getProducts.filter(product => {
+                return this.getAllergensFilter.every(allergen => !product.allergens.some(item => item.toLowerCase() === allergen.toLowerCase()))
                 });
-
+            const vegan = whitoutAllergens.filter(product => product.vegan);
+            const vegetarian = whitoutAllergens.filter(product => product.vegetarian); 
+            
+            return this.getIsVegan ? vegan
+                    : this.getIsVegetarian ? vegetarian
+                    : whitoutAllergens;
+           
         },
     },
      methods: {

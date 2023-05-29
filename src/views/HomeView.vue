@@ -62,7 +62,7 @@ p{
 
     a {
         display: inline-flex;
-        align-items: end;
+        align-items: flex-end;
     }
 
  }
