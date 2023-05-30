@@ -16,7 +16,7 @@
                 <span class='category-icon' v-if="name === 'Postres'">
                     <font-awesome-icon icon="fa-solid fa-ice-cream" />
                 </span>          
-                {{ name }}
+                <span class='category-name'>{{ name }}</span> 
     </router-link>
 
     

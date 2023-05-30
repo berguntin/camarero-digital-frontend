@@ -5,6 +5,9 @@ export default {
     getProducts: (state) => {
         return Object.values(state.products)
     },
+    getCategories: (state) => {
+        return Object.values(state.categories)
+    },
 
     getProductsInCart: (state) => {
         return Object.values(state.productsInCart);

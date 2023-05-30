@@ -29,11 +29,12 @@ export default{
         state.fetchingCategories = true
         state.error = null
     },
-    [types.FETCH_CATEGORIES_SUCCESS] (state, { categories }) {
+    [types.FETCH_CATEGORIES_SUCCESS] (state, {categories} ) {
         state.fetchingData = false
         state.fetchingCategories = false
         state.error = null
         state.categories =  categories 
+        localStorage.setItem('categories', Array(categories))
     },
     [types.FETCH_CATEGORIES_FAILURE] (state, { error }) {
         state.fetchingData = false

@@ -4,12 +4,17 @@ import { API_URL } from "./settings";
 export default {
 
     //Usaremos un token para autenticar el envio de pedidos
-    getToken(tableID) {
+    getToken(tableID, lat, long) {
+        console.log(lat, long)
         return fetch(API_URL + '/api/token', {
             method: 'POST',
             headers: {
                 tableid: tableID
-            }
+            },
+            body: JSON.stringify({
+                lat,
+                long
+              }),
         })
         .then(response => {
             if (!response.ok) {
@@ -19,7 +24,7 @@ export default {
                             });
             }
             return response.json();
-        });
+        });  
     },
   
     getCategories() {

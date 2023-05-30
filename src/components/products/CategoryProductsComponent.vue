@@ -7,20 +7,21 @@
             :product="product"
             >
         </AppProduct>
-     </div>   
+     </div>
+    
     </div>
     
  </template>
  <script>
- import AppProduct from './ProductMenuComponent'
- import AppFilter from '@/components/filter/FilterComponent.vue'
+ import AppProduct from './ProductMenuComponent';
+ import AppFilter from '@/components/filter/FilterComponent.vue';
  import { mapState, mapActions, mapGetters } from 'vuex';
  
  export default {
      name: "AppCategories",
      components: {
         AppProduct,
-        AppFilter
+        AppFilter,     
      },
      props:{
         category: String
@@ -35,7 +36,8 @@
             'getProducts',
             'getAllergensFilter',
             'getIsVegan',
-            'getIsVegetarian'
+            'getIsVegetarian',
+            'getCategories'
         ]),
         
         filter(){
@@ -75,5 +77,14 @@
         margin-bottom: 20vh;
 
      }
+     .categories-nav{
+        display: flex;
+        margin-bottom: 0px;
+        
+        .category-name{
+            display: none;
+        }
+     }
+     
 
  </style>

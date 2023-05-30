@@ -8,7 +8,6 @@
     </div>
     <div v-else>Verificando....</div>
     <button @click="directLogin(1)">Logearme como mesa 1 sin escanear QR</button>
-
   </main>
     
 </template>
@@ -21,7 +20,8 @@ export default {
   name: 'LoginView',
   data() {
     return{
-     authenticating: false
+     authenticating: false,
+     location: null
     }  
   },
   methods: { 
@@ -29,10 +29,13 @@ export default {
       'captureError',
       'clearError'
     ]),
-    doLogin(table) {
+    async doLogin(table) {
       this.authenticating = true;
+      const {lat, long} = await this.storeGeoData();
+      console.log(lat, long)
       return new Promise((resolve, reject) => {
-          this.$store.dispatch('askForToken', table)
+        console.log(lat, long)
+          this.$store.dispatch('askForToken', table, lat, long)
             .then(()=> resolve())
             .catch ((error) => {
               this.captureError(error)
@@ -77,7 +80,7 @@ export default {
       }
       this.isCameraRunning = false; // Detener la ejecución de scanQR()
   },
-    setupCamera() {
+  setupCamera() {
     const video = document.getElementById('preview');
     const vm = this;
 
@@ -121,15 +124,41 @@ export default {
       if (this.isCameraRunning) {
         requestAnimationFrame(() => this.scanQR());
       }
+  },
+  getGeoLocation() {
+    if (navigator.geolocation) {
+      return new Promise((resolve, reject) => {
+        const options = { enableHighAccuracy: true }
+        navigator.geolocation.getCurrentPosition(resolve, reject, options)
+      })
+    }
+    else{
+      let error = new Error('Localizacion no permitida')
+      this.captureError(error)
+    }
+  },
+  async storeGeoData() {
+      try {
+        const location = await this.getGeoLocation();
+        const lat = location.coords.latitude;
+        const long = location.coords.longitude;
+        console.log('Localizacion guardada')
+        return { lat, long };
+        
+      } catch (error) {
+        this.captureError(error);
+      }
     },
   },
   mounted() {
     this.setupCamera();
+    this.storeGeoData();
   },
   beforeDestroy(){
     this.stopCamera();
     }
 }
+
 
 </script>
 <style lang="scss" scoped>
