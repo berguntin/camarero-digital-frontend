@@ -35,7 +35,7 @@ export default {
       console.log(lat, long)
       return new Promise((resolve, reject) => {
         console.log(lat, long)
-          this.$store.dispatch('askForToken', table, lat, long)
+          this.$store.dispatch('askForToken', {tableid:table, location: {lat, long} })
             .then(()=> resolve())
             .catch ((error) => {
               this.captureError(error)

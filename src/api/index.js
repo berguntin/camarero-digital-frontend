@@ -4,17 +4,14 @@ import { API_URL } from "./settings";
 export default {
 
     //Usaremos un token para autenticar el envio de pedidos
-    getToken(tableID, lat, long) {
-        console.log(lat, long)
+    getToken(tableID, location) {
+       console.log(location)
         return fetch(API_URL + '/api/token', {
             method: 'POST',
             headers: {
-                tableid: tableID
-            },
-            body: JSON.stringify({
-                lat,
-                long
-              }),
+                tableid: tableID,
+                location: JSON.stringify(location)
+            }
         })
         .then(response => {
             if (!response.ok) {

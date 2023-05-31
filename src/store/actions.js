@@ -9,13 +9,11 @@ export default {
         commit('SET_TABLE_ID', tableID)
     },
     //Pedir el token para realizar pedidos
-    async askForToken({ commit }, tableid, lat, long ) {
-        
+    async askForToken({ commit }, {tableid, location} ) {
         commit(types.FETCH_TOKEN_REQUEST)
-        console.log(lat, long)
         try {
              //desestructuramos tableID y token
-            const { tableID, token } = await API.getToken(tableid, lat, long);
+            const { tableID, token } = await API.getToken(tableid, location);
             commit(types.FETCH_TOKEN_SUCCESS, { tableID });
             localStorage.setItem('tableID', tableID)
             localStorage.setItem('AuthToken', token)

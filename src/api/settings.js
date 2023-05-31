@@ -1,7 +1,8 @@
 
 
-const API_BASE_URL= 'https://camarero-digital-api.onrender.com'
-/* const API_PORT = 3002 */
+export const API_URL= process.env.NODE_ENV === 'production' ? 
+                    'https://camarero-digital-api.onrender.com' 
+                    : 'http://localhost:3002'
 
-export const API_URL = API_BASE_URL /*  + ':' + API_PORT */
+
 
