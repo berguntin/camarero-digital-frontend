@@ -5,7 +5,7 @@ export default {
 
     //Usaremos un token para autenticar el envio de pedidos
     getToken(tableID, location) {
-       console.log(location)
+      
         return fetch(API_URL + '/api/token', {
             method: 'POST',
             headers: {

@@ -32,9 +32,9 @@ export default {
     async doLogin(table) {
       this.authenticating = true;
       const {lat, long} = await this.storeGeoData();
-      console.log(lat, long)
+     
       return new Promise((resolve, reject) => {
-        console.log(lat, long)
+        
           this.$store.dispatch('askForToken', {tableid:table, location: {lat, long} })
             .then(()=> resolve())
             .catch ((error) => {
