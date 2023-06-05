@@ -3,10 +3,10 @@
 
     <h3>Necesitamos verificar tu mesa</h3>
     <p>Para utilizar las funcionalidades de la app, debes seleccionar una mesa escaneando el QR </p>
-    <div v-if="!authenticating" class="qr-scaner">
+    <div class="qr-scaner">
       <video id="preview"></video>
     </div>
-    <div v-else>Verificando....</div>
+    <div v-if="authenticating">Verificando....</div>
     <button @click="directLogin(1)">Logearme como mesa 1 sin escanear QR</button>
   </main>
     
@@ -14,7 +14,7 @@
 
 <script>
 import jsQR from 'jsqr';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'LoginView',
@@ -24,6 +24,11 @@ export default {
      location: null
     }  
   },
+  computed:{
+    ...mapState([
+        "auth"
+    ])
+  },
   methods: { 
     ...mapActions([
       'captureError',
@@ -32,32 +37,25 @@ export default {
     async doLogin(table) {
       this.authenticating = true;
       const {lat, long} = await this.storeGeoData();
+      this.$store.dispatch('askForToken', {tableid:table, location: {lat, long}})
+      this.authenticating = false
      
-      return new Promise((resolve, reject) => {
-        
-          this.$store.dispatch('askForToken', {tableid:table, location: {lat, long} })
-            .then(()=> resolve())
-            .catch ((error) => {
-              this.captureError(error)
-              reject(error)
-            })
-          });
     },
-    async directLogin(tableID){
-      await this.doLogin(tableID).then(
-        this.$router.push('/menu')
-      );
+    directLogin(tableID){
+      try{
+        this.doLogin(tableID)    
+      }
+      catch(error) {
+       console.error(error)
+      } 
     },
     async goTo(qrCode) {
         try {
-          this.clearError();
           const url = new URL(qrCode);
           // Nos aseguramos de que el QR no nos dirija a sitios externos
           if (url.origin === window.location.origin) {
             const table = url.searchParams.get('tableID');
-            await this.doLogin(table).then(
-              this.$router.push('/menu')
-            );
+            await this.doLogin(table)
             return true
           } 
           else {
@@ -115,7 +113,7 @@ export default {
         let qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
         if (qrCode) {
-          this.clearError();
+          
           this.goTo(qrCode.data);
           return;
         }
@@ -142,7 +140,6 @@ export default {
         const location = await this.getGeoLocation();
         const lat = location.coords.latitude;
         const long = location.coords.longitude;
-        console.log('Localizacion guardada')
         return { lat, long };
         
       } catch (error) {
@@ -153,6 +150,15 @@ export default {
   mounted() {
     this.setupCamera();
     this.storeGeoData();
+  },
+  watch: {
+    // En el momento en que cambie el estado, redirigimos al menu
+    auth(newValue) {
+      if(newValue){
+        this.$router.push('/menu')
+      }
+      
+    }
   },
   beforeDestroy(){
     this.stopCamera();

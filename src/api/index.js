@@ -3,25 +3,32 @@ import { API_URL } from "./settings";
 
 export default {
 
-    //Usaremos un token para autenticar el envio de pedidos
+    /** Usaremos un token para autenticar el envio de pedidos
+     *  enviamos la localizacion a la api 
+     *  Con useLocation=false, obviamos la localizacion para la autenticacion
+     * **/
     getToken(tableID, location) {
       
         return fetch(API_URL + '/api/token', {
             method: 'POST',
             headers: {
                 tableid: tableID,
-                location: JSON.stringify(location)
+                location: JSON.stringify(location),
+                useLocation: false
             }
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.text()
-                        .then(text => {
-                            throw new Error(text || 'HTTP error ' + response.status)
-                            });
-            }
-            return response.json();
-        });  
+            })
+            .then(response => {
+                if (!response.ok) {
+                     return response.json()
+                            .then(message => {
+                                throw new Error(message.error)
+                                });
+                }
+                else {
+                    return response.json();
+                }
+                
+            });  
     },
   
     getCategories() {

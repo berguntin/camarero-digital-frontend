@@ -11,16 +11,17 @@ export default {
     //Pedir el token para realizar pedidos
     async askForToken({ commit }, {tableid, location} ) {
         commit(types.FETCH_TOKEN_REQUEST)
-        try {
+        
              //desestructuramos tableID y token
-            const { tableID, token } = await API.getToken(tableid, location);
-            commit(types.FETCH_TOKEN_SUCCESS, { tableID });
-            localStorage.setItem('tableID', tableID)
-            localStorage.setItem('AuthToken', token)
-        } catch (error) {
-            console.error(error);
-            commit(types.FETCH_TOKEN_FAILURE, { error: error.message });
-        }
+            API.getToken(tableid, location).then( res => {
+                const {tableID, token } = res
+                commit(types.FETCH_TOKEN_SUCCESS, { tableID });
+                localStorage.setItem('tableID', tableID)
+                localStorage.setItem('AuthToken', token)
+                
+            }).catch(error => {
+                commit(types.FETCH_TOKEN_FAILURE, { error });
+            });
     },
     
     //Cargar las categorias
