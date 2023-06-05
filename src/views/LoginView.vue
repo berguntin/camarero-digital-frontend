@@ -157,7 +157,6 @@ export default {
       if(newValue){
         this.$router.push('/menu')
       }
-      
     }
   },
   beforeDestroy(){
