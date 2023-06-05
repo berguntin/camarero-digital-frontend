@@ -8,7 +8,7 @@ import HomeView from '@/views/HomeView';
 import jwtDecode from 'jwt-decode';
 import store from '@/store';
 import state from '@/store/state';
-
+import { storeGeoData } from '@/utils/locationUtils';
 
 Vue.use(VueRouter);
 
@@ -78,10 +78,11 @@ router.beforeEach((to, from, next) => {
 })
 //Maneja cambio de tableID en cualquier punto de la navegacion
 router.beforeResolve( async (to, from, next) => {
-  const tableID = to.query.tableID;
-  if(tableID !== undefined && tableID !== state.tableID){
+  const tableid = to.query.tableID;
+  if(tableid !== undefined && tableid !== state.tableid){
     try{ 
-      store.dispatch('askForToken', to.query.tableID);
+      const location = await storeGeoData();
+      store.dispatch('askForToken', { tableid, location });
       store.dispatch('clearState');
       next()
     

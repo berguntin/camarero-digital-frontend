@@ -15,6 +15,7 @@
 <script>
 import jsQR from 'jsqr';
 import { mapActions, mapState } from 'vuex';
+import { storeGeoData } from '../utils/locationUtils'
 
 export default {
   name: 'LoginView',
@@ -36,7 +37,7 @@ export default {
     ]),
     async doLogin(table) {
       this.authenticating = true;
-      const {lat, long} = await this.storeGeoData();
+      const {lat, long} = await storeGeoData();
       this.$store.dispatch('askForToken', {tableid:table, location: {lat, long}})
       this.authenticating = false
      
@@ -122,34 +123,11 @@ export default {
       if (this.isCameraRunning) {
         requestAnimationFrame(() => this.scanQR());
       }
-  },
-  getGeoLocation() {
-    if (navigator.geolocation) {
-      return new Promise((resolve, reject) => {
-        const options = { enableHighAccuracy: true }
-        navigator.geolocation.getCurrentPosition(resolve, reject, options)
-      })
-    }
-    else{
-      let error = new Error('Localizacion no permitida')
-      this.captureError(error)
-    }
-  },
-  async storeGeoData() {
-      try {
-        const location = await this.getGeoLocation();
-        const lat = location.coords.latitude;
-        const long = location.coords.longitude;
-        return { lat, long };
-        
-      } catch (error) {
-        this.captureError(error);
-      }
     },
   },
   mounted() {
     this.setupCamera();
-    this.storeGeoData();
+    storeGeoData();
   },
   watch: {
     // En el momento en que cambie el estado, redirigimos al menu
