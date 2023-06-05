@@ -13,7 +13,7 @@ Está diseñada bajo el enfoque "Mobile-first", pero la experiencia de usuario e
 
 ## Acceso a la app
 Puedes acceder a la app a través de los códigos QR: <br/>
-(Ten en cuenta que está desplegada en un servidor gratuíto que se encuentra inactivo hasta que recibe alguna petición, por lo que la primera carga puede demorar un poco)
+
 
 ### Códigos qr
 | Mesa 1                                 | Mesa 2                                 | Mesa 3                                 |
